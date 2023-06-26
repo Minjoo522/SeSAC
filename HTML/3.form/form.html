@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head> </head>
+  <body>
+    <h1>입력폼들 만들어보기</h1>
+    <!-- 기본적인 입력폼 -->
+    <label for="">아이디</label>
+    <input
+      type="text"
+      placeholder="이름을 입력하시오."
+      size="20"
+      maxlength="20"
+    />
+    <br />
+    <label for="">비밀번호</label>
+    <input
+      type="password"
+      placeholder="비밀번호를 입력하시오."
+      size="50"
+      maxlength="20"
+    />
+    <label for="">나이</label>
+    <input type="number" placeholder="나이를 입력하시오." /><br />
+    <label for="아무 말이나 쓰기"></label>
+    <textarea cols="40" rows="10"></textarea><br />
+    <label for="">버튼들</label><br />
+    <input type="button" value="🩷" /><br />
+    <input type="button" value="✨" /><br />
+    <input type="button" value="💩" /><br />
+    <p>과목 고르기</p>
+    <input type="radio" name="subject" />국어
+    <input type="radio" name="subject" />영어
+    <input type="radio" name="subject" />수학
+    <p>과일 고르기</p>
+    <input type="radio" name="fruit" />딸기
+    <input type="radio" name="fruit" />사과
+    <input type="radio" name="fruit" />수박
+    <p>멀티 초이스 만들기</p>
+    <input type="checkbox" name="food" />🌭
+    <input type="checkbox" name="food" />🍔
+    <input type="checkbox" name="food" />🥘
+    <p>풀다운 메뉴 만들기</p>
+    <select size="3" multiple>
+      <option>콜라</option>
+      <option>환타</option>
+      <option>스프라이트</option>
+    </select>
+
+    <p>프로그레스파</p>
+    <p>로딩중...</p>
+    <progress value="60" max="100"></progress>
+  </body>
+</html>

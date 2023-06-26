@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>마이 타이틀</title>
+  </head>
+  <body>
+    <h1>여기는 나의 타이틀</h1>
+    <hr color="yellow" size="10" />
+    <div id="mystory1">
+      <!-- 컨테이너 -->
+      <p>나의 메인 <a href="content1.html">본문1</a>은 여기에 옵니다.</p>
+      <p>
+        나의 메인 <a href="content2.html">본문2</a>는
+        <!-- 인라인 컨테이너 -->
+        여기에 옵니다.
+      </p>
+    </div>
+    <div id="mystory2">
+      <p>나의 메인 본문3은 여기에 옵니다.</p>
+      <p>나의 메인 본문4는 여기에 옵니다.</p>
+    </div>
+    <p>
+      <!-- 실무적으로 거의 쓰이지 않음, 해상도에 따라 이미지가 바뀜 -->
+      <picture>
+        <source media="(max-width:400px)" srcset="images/1.jpg" />
+        <source media="(max-width:800px)" srcset="images/2.jpg" />
+        <img src="images/1.jpg" alt="" />
+      </picture>
+      <a href="https://www.naver.com">
+        <img src="images/1.jpg" width="50%" alt="pink flower" />
+        <!-- ✨ alternate text -->
+        분홍색 꽃이다!</a
+      >
+    </p>
+    <p>
+      <a href="https://www.daum.net">
+        <img src="images/2.jpg" width="200px" height="100px" alt="pink flower"
+      /></a>
+      🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸
+    </p>
+  </body>
+</html>
