@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Bagel+Fat+One&display=swap');
+
+p {
+  color: plum;
+  font-family: 'Bagel Fat One', cursive;
+  font-weight: bold;
+  font-size: 1.5em;
+  font-style: italic;
+  text-align: center;
+  border-width: 5px;
+  border-style: dashed;
+  border-color: mediumpurple;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+#myid {
+  color: paleturquoise;
+}
+
+/* 여러개의 선택지는 콤마로 구분! */
+h3,
+h4 {
+  text-decoration: overline;
+  color: palevioletred;
+  border: 3px dotted mediumvioletred;
+  padding-top: 20px;
+  padding-bottom: 100px;
+  padding-left: 5%;
+  background-image: url('../HTML/images/3.jpg');
+}
+
+ul {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  border: 10px groove olive;
+  background-color: rgba(173, 133, 186, 0.432);
+}
+
+li {
+  color: indianred;
+  font-weight: bold;
+  border-bottom: 1px solid salmon;
+  border-top: 1px dotted yellowgreen;
+  border-right: 2px dashed palegoldenrod;
+  border-left: 4px groove darkgrey;
+  margin: 100px;
+}

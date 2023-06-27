@@ -1,0 +1,11 @@
+p {
+  display: inline-block;
+  width: 200px;
+  border: 1px solid palevioletred;
+  transition: all 300ms ease-in-out;
+  text-align: center;
+}
+
+p:hover {
+  background-color: pink;
+}
