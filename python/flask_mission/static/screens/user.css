@@ -1,0 +1,18 @@
+/* Form */
+.user-form {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 1.1rem;
+  margin: 3px 0;
+}
+
+.user-form__name input,
+user-form__gender select {
+  width: 150px;
+  height: 25px;
+}
+
+.user-form__submit {
+  font-size: 1.1rem;
+}

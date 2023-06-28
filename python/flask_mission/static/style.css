@@ -1,0 +1,38 @@
+/* Components */
+@import 'components/nav-bar.css';
+@import 'components/table.css';
+
+/* Screens */
+@import 'screens/user_detail.css';
+@import 'screens/user.css';
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* common */
+.max-width {
+  width: 75%;
+}
+
+/* Main */
+main {
+  margin-top: 53px;
+  padding: 0 15px;
+}

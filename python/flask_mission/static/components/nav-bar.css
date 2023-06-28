@@ -1,0 +1,23 @@
+nav {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  top: 0;
+  height: 50px;
+  padding: 8px 16px;
+  background-color: #343a3f;
+}
+
+.menu {
+  display: flex;
+  width: 100%;
+  gap: 14px;
+  padding: 0 15px;
+}
+
+.menu__item {
+  color: #cbcecf;
+  padding: 8px;
+  font-size: 1.1rem;
+}

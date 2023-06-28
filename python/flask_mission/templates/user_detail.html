@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/style.css" />
+    <title>Customer Management System</title>
+  </head>
+  <body>
+    <!-- Nav bar -->
+    <nav class="max-width">
+      <ul class="menu">
+        <li><a class="menu__item" href="/users">User</a></li>
+        <li><a class="menu__item" href="/orders">Order</a></li>
+        <li><a class="menu__item" href="/order_items">Order Item</a></li>
+        <li><a class="menu__item" href="/items">Item</a></li>
+        <li><a class="menu__item" href="/stores">Store</a></li>
+      </ul>
+    </nav>
+    <!-- Main -->
+    <main class="max-width">
+      <!-- User Info Table -->
+      <table>
+        <caption>
+          고객 정보
+        </caption>
+        <tr>
+          <th align="left">name</th>
+          <th align="left">gender</th>
+          <th align="left">age</th>
+          <th align="left">birthday</th>
+          <th align="left">address</th>
+        </tr>
+        <tr class="table__item">
+          <td>{{user['Name']}}</td>
+          <td>{{user['Gender']}}</td>
+          <td>{{user['Age']}}</td>
+          <td>{{user['Birthdate']}}</td>
+          <td>{{user['Address']}}</td>
+        </tr>
+      </table>
+    </main>
+  </body>
+</html>
