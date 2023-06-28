@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      table {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        border: 1px solid black;
+        padding: 1rem;
+        text-align: center;
+      }
+
+      th {
+        background-color: palevioletred;
+      }
+
+      a {
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+      }
+      div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    </style>
+    <title>My First Flask</title>
+  </head>
+  <body>
+    <div>
+      <h1>This is Flask HomePage</h1>
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>Age</th>
+          <th>Birthdate</th>
+          <th>Address</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+          <td><a href="user/{{user[0]}}">{{user[0]}}</a></td>
+          <td>{{user[1]}}</td>
+          <td>{{user[2]}}</td>
+          <td>{{user[3]}}</td>
+          <td>{{user[4]}}</td>
+          <td>{{user[5]}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </body>
+</html>

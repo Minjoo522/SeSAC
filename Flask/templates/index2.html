@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My First Flask</title>
+  </head>
+  <body>
+    <div>
+      <h1>This is Flask HomePage</h1>
+      <table border="1">
+        <tr>
+          <th>name</th>
+          <th>age</th>
+          <th>phone</th>
+        </tr>
+        {% for user in username %}
+        <tr>
+          <td>{{user['name']}}</td>
+          <td>{{user['age']}}</td>
+          <td>{{user['phone']}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </body>
+</html>

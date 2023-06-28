@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      table {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        border: 1px solid black;
+        padding: 0.5rem 1rem;
+        text-align: center;
+      }
+
+      th {
+        background-color: palevioletred;
+      }
+
+      a {
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+      }
+      div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .back-home {
+        margin-top: 20px;
+        padding: 8px;
+        background-color: palevioletred;
+        border-radius: 5px;
+      }
+    </style>
+    <title>User Info</title>
+  </head>
+  <body>
+    <div>
+      <h1>안녕하세요, {{user[1]}}님!</h1>
+      <table border="1">
+        <tr>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>Age</th>
+          <th>Birthdate</th>
+          <th>Address</th>
+        </tr>
+        <tr>
+          <td>{{user[1]}}</td>
+          <td>{{user[2]}}</td>
+          <td>{{user[3]}}</td>
+          <td>{{user[4]}}</td>
+          <td>{{user[5]}}</td>
+        </tr>
+      </table>
+      <a class="back-home" href="/user">처음으로</a>
+    </div>
+  </body>
+</html>
