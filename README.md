@@ -5,3 +5,4 @@
 - [6월 26일(월) : HTML](https://github.com/Minjoo522/SeSAC/tree/main/HTML)
 - [6월 27일(화) : CSS](https://github.com/Minjoo522/SeSAC/tree/main/CSS)
 - [6월 28일(수) : Flask](https://github.com/Minjoo522/SeSAC/tree/main/Flask)
+  - [Flask Mission : Customer Management System](https://github.com/Minjoo522/SeSAC/tree/main/python/flask_mission)
