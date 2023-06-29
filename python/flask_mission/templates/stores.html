@@ -10,7 +10,7 @@
     <!-- Nav bar -->
     <nav class="max-width">
       <ul class="menu">
-        <li><a class="menu__item" href="/users">User</a></li>
+        <li><a class="menu__item" href="/users/1">User</a></li>
         <li><a class="menu__item" href="/orders">Order</a></li>
         <li><a class="menu__item" href="/order_items">Order Item</a></li>
         <li><a class="menu__item" href="/items">Item</a></li>
@@ -30,13 +30,13 @@
         {% for store in stores %}
         <tr class="table__item hover">
           <td>
-            <a class="table__item id" href="store_detail/{{store['Id']}}"
-              >{{store['Id']}}</a
+            <a class="table__item id" href="store_detail/{{ store['Id'] }}"
+              >{{ store['Id'] }}</a
             >
           </td>
-          <td align="center">{{store['Type']}}</td>
-          <td align="center">{{store['Name']}}</td>
-          <td align="center">{{store['Address']}}</td>
+          <td align="center">{{ store['Type'] }}</td>
+          <td align="center">{{ store['Name'] }}</td>
+          <td align="center">{{ store['Address'] }}</td>
         </tr>
         {% endfor %}
       </table>

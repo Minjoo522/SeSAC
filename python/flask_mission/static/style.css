@@ -1,9 +1,9 @@
 /* Components */
 @import 'components/nav-bar.css';
 @import 'components/table.css';
+@import 'components/pagination.css';
 
 /* Screens */
-@import 'screens/user_detail.css';
 @import 'screens/user.css';
 
 * {
@@ -24,6 +24,7 @@ ul {
 
 a {
   text-decoration: none;
+  color: black;
 }
 
 /* common */

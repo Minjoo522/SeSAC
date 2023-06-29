@@ -10,7 +10,7 @@
     <!-- Nav bar -->
     <nav class="max-width">
       <ul class="menu">
-        <li><a class="menu__item" href="/users">User</a></li>
+        <li><a class="menu__item" href="/users/1">User</a></li>
         <li><a class="menu__item" href="/orders">Order</a></li>
         <li><a class="menu__item" href="/order_items">Order Item</a></li>
         <li><a class="menu__item" href="/items">Item</a></li>
@@ -28,19 +28,19 @@
         </tr>
         {% for order_item in order_items %}
         <tr class="table__item hover">
-          <td>{{order_item['Id']}}</td>
+          <td>{{ order_item['Id'] }}</td>
           <td>
             <a
               class="table__item id"
-              href="order_detail/{{order_item['OrderId']}}"
-              >{{order_item['OrderId']}}</a
+              href="order_detail/{{ order_item['OrderId'] }}"
+              >{{ order_item['OrderId'] }}</a
             >
           </td>
           <td>
             <a
               class="table__item id"
-              href="item_detail/{{order_item['ItemId']}}"
-              >{{order_item['ItemId']}}</a
+              href="item_detail/{{ order_item['ItemId'] }}"
+              >{{ order_item['ItemId'] }}</a
             >
           </td>
         </tr>

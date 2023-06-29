@@ -10,7 +10,7 @@
     <!-- Nav bar -->
     <nav class="max-width">
       <ul class="menu">
-        <li><a class="menu__item" href="/users">User</a></li>
+        <li><a class="menu__item" href="/users/1">User</a></li>
         <li><a class="menu__item" href="/orders">Order</a></li>
         <li><a class="menu__item" href="/order_items">Order Item</a></li>
         <li><a class="menu__item" href="/items">Item</a></li>
@@ -20,7 +20,7 @@
     <!-- Main -->
     <main class="max-width">
       <!-- Form -->
-      <form action="" method="get" class="user-form">
+      <form action="/users" method="get" class="user-form">
         <div class="user-form__name">
           <label for="name">Name:</label>
           <input type="text" name="name" id="name" />
@@ -38,26 +38,41 @@
       <!-- Users Table -->
       <table>
         <tr>
-          <th align="left">id</th>
-          <th>name</th>
-          <th>gender</th>
-          <th>age</th>
-          <th>birthdate</th>
+          {% for header in headers %}
+          <th>{{ header }}</th>
+          {% endfor %}
         </tr>
         {% for user in users %}
         <tr class="table__item hover">
           <td>
-            <a class="table__item id" href="user_detail/{{user['Id']}}"
-              >{{user['Id']}}</a
-            >
+            <a class="table__item id" href="/user_detail/{{ user['Id'] }}"
+              >{{ user['Id'] }}
+            </a>
           </td>
-          <td align="center">{{user['Name']}}</td>
-          <td align="center">{{user['Gender']}}</td>
-          <td align="center">{{user['Age']}}</td>
-          <td align="center">{{user['Birthdate']}}</td>
+          <td align="center">{{ user['Name'] }}</td>
+          <td align="center">{{ user['Gender'] }}</td>
+          <td align="center">{{ user['Age'] }}</td>
+          <td align="center">{{ user['Birthdate'] }}</td>
+          <td align="center">{{ user['Address'] }}</td>
         </tr>
         {% endfor %}
       </table>
+      <!-- Page Bar -->
+      <div class="pagination">
+        {% if current_page != 1 %}
+        <a class="active" href="?page={{ 1 }}">처음</a>
+        {% endif %}
+        <!-- for문... -->
+        {% if current_page - 1 > 0 %}
+        <a href="?page={{ current_page - 1 }}">{{ current_page - 1}}</a>
+        {% endif %}
+        <a href="?page={{ current_page }}">{{ current_page }}</a>
+        {% if current_page - total_pages < 0 %}
+        <a href="?page={{ current_page + 1 }}">{{ current_page + 1}}</a>
+        {% endif %} {% if current_page != total_pages %}
+        <a class="active" href="?page={{ total_pages }}">끝</a>
+        {% endif %}
+      </div>
     </main>
   </body>
 </html>

@@ -10,7 +10,7 @@
     <!-- Nav bar -->
     <nav class="max-width">
       <ul class="menu">
-        <li><a class="menu__item" href="/users">User</a></li>
+        <li><a class="menu__item" href="/users/1">User</a></li>
         <li><a class="menu__item" href="/orders">Order</a></li>
         <li><a class="menu__item" href="/order_items">Order Item</a></li>
         <li><a class="menu__item" href="/items">Item</a></li>
@@ -31,12 +31,12 @@
         <tr class="table__item hover">
           <td>
             <a class="table__item id" href="item_detail/{{item['Id']}}"
-              >{{item['Id']}}</a
-            >
+              >{{ item['Id'] }}
+            </a>
           </td>
-          <td align="center">{{item['Type']}}</td>
-          <td align="center">{{item['Name']}}</td>
-          <td align="center">{{item['UnitPrice']}}</td>
+          <td align="center">{{ item['Type'] }}</td>
+          <td align="center">{{ item['Name'] }}</td>
+          <td align="center">{{ item['UnitPrice'] }}</td>
         </tr>
         {% endfor %}
       </table>
