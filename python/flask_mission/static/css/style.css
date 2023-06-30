@@ -1,3 +1,6 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+
 /* Components */
 @import 'components/nav-bar.css';
 @import 'components/table.css';
@@ -13,7 +16,10 @@
 body {
   margin: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  font-family: 'Open Sans', sans-serif;
 }
 
 ul {
@@ -25,6 +31,16 @@ ul {
 a {
   text-decoration: none;
   color: black;
+}
+
+.submit {
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+}
+
+.submit:hover {
+  cursor: pointer;
 }
 
 /* common */

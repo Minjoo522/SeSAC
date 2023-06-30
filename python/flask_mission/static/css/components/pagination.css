@@ -18,6 +18,10 @@
   font-weight: bold;
 }
 
+.current-page {
+  background-color: rgba(216, 112, 147, 0.534);
+}
+
 .pagination a:hover {
   background-color: rgba(216, 112, 147, 0.534);
 }
