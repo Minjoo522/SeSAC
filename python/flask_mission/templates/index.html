@@ -68,7 +68,9 @@
         {% endif %}
         <a href="?page={{ current_page }}">{{ current_page }}</a>
         {% if current_page - total_pages < 0 %}
-        <a href="?page={{ current_page + 1 }}">{{ current_page + 1}}</a>
+        <a href="?page={{ current_page + 1 }}&name=강&gender="
+          >{{ current_page + 1}}</a
+        >
         {% endif %} {% if current_page != total_pages %}
         <a class="active" href="?page={{ total_pages }}">끝</a>
         {% endif %}
