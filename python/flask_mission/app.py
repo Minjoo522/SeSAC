@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import csv
 
 app = Flask(__name__)
+app.secret_key = 'hello'
 
 def load_file(file_path):
     with open(file_path, "r", encoding="utf-8") as file:
@@ -11,16 +12,31 @@ def load_file(file_path):
             data_list.append(data)
     return data_list
 
-# Login
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
+    if 'id' in session:
+        return redirect(url_for('users'))
+    else:
+        return redirect(url_for('login'))
+
+# Log in
+@app.route('/login', methods=['GET', 'POST'])
+def login():
     error = None
     if request.method == 'POST':
-        if request.form['id'] != 'admin' or request.form['password'] != 'admin':
+        id_ = request.form['id']
+        password_ = request.form['password']
+        if id_ != 'admin' or password_ != 'admin':
             error = '아이디나 비밀번호가 틀렸습니다.'
         else:
+            session['id'] = id_
             return redirect(url_for('users'))
     return render_template("index.html", error = error)
+
+# Log out
+@app.route('/logout')
+def logout():
+    session.pop('id', None)
 
 @app.route('/users')
 def users():
