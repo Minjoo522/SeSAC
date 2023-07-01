@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import csv
+import os
 
 app = Flask(__name__)
-app.secret_key = 'hello'
+app.secret_key = os.urandom(24)
 
 def load_file(file_path):
     with open(file_path, "r", encoding="utf-8") as file:
