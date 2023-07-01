@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import csv
 
 app = Flask(__name__)
@@ -11,10 +11,16 @@ def load_file(file_path):
             data_list.append(data)
     return data_list
 
-# TODO: 홈화면 구현
-@app.route('/')
+# Login
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template("index.html")
+    error = None
+    if request.method == 'POST':
+        if request.form['id'] != 'admin' or request.form['password'] != 'admin':
+            error = '아이디나 비밀번호가 틀렸습니다.'
+        else:
+            return redirect(url_for('users'))
+    return render_template("index.html", error = error)
 
 @app.route('/users')
 def users():
