@@ -8,6 +8,7 @@
 
 /* Screens */
 @import 'screens/user.css';
+@import 'screens/index.css';
 
 * {
   box-sizing: border-box;

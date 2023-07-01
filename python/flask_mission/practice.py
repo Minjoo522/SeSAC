@@ -1,16 +1,7 @@
-import csv
+total_pages = len(data) // per_page + (len(data) % per_page > 0)
+start_index = per_page * (page - 1)
+end_index = start_index + per_page
+page_data = data[start_index:end_index]
 
-def load_file(file_path):
-    with open(file_path, "r", encoding="utf-8") as file:
-        user_list = []
-        users = csv.DictReader(file, skipinitialspace=True)
-        for user in users:
-            user_list.append(user)
-    return user_list
-
-
-i_list = []
-datas = load_file("src/user.csv")
-for i in datas:
-    i_list.append(i)
-print(i_list)
+# 받아와야하는 데이터 : 데이터, 페이지, 
+def 

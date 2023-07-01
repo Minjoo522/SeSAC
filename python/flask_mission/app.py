@@ -32,12 +32,17 @@ def users():
             if search_gender in user['Gender']:
                 data.append(user)
     
+    keywords = ""
+    keywords += "&name=" + search_name
+    keywords += "&gender=" + search_gender
+
+    # TODO: 함수로 변경하기
     total_pages = len(data) // per_page + (len(data) % per_page > 0)
     start_index = per_page * (page - 1)
     end_index = start_index + per_page
     page_data = data[start_index:end_index]
     
-    return render_template("users.html", users = page_data, total_pages = total_pages, current_page = page, search_name = search_name, search_gender = search_gender)
+    return render_template("users.html", users = page_data, total_pages = total_pages, current_page = page, keywords = keywords)
 
 @app.route('/user_detail/<selected_id>')
 def user_detail(selected_id):
