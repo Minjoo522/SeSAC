@@ -1,27 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+  {% block head %}
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
     <title>Customer Management System</title>
   </head>
+  {% endblock %}
   <body>
     <!-- Header -->
     <!-- <header>
       <h1>Customer Management System</h1>
     </header> -->
-    <!-- Nav bar -->
-    <nav class="max-width">
-      <ul class="menu">
-        <li><a class="menu__item" href="/users">User</a></li>
-        <li><a class="menu__item" href="/orders">Order</a></li>
-        <li><a class="menu__item" href="/order_items">Order Item</a></li>
-        <li><a class="menu__item" href="/items">Item</a></li>
-        <li><a class="menu__item" href="/stores">Store</a></li>
-      </ul>
-      <button type="button" onclick="location.href='/login'">LOGOUT</button>
-    </nav>
+    {% include "navbar.html" %}
     <!-- Main -->
     <main class="max-width">{% block content %} {% endblock %}</main>
   </body>

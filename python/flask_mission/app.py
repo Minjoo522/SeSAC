@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import csv
 import os
 
@@ -13,20 +13,21 @@ def load_file(file_path):
             data_list.append(data)
     return data_list
 
-# FIXME: 클래스로 만들기?
-per_page = 10
+PER_PAGE = 10
 
 def get_total_pages(data):
-    total_pages = len(data) // per_page + (len(data) % per_page > 0)
+    total_pages = len(data) // PER_PAGE + (len(data) % PER_PAGE > 0)
     return total_pages
 
 def get_start_index(page):
-    start_index = per_page * (page - 1)
+    start_index = PER_PAGE * (page - 1)
     return start_index
 
 def get_end_index(start_index):
-    end_index = start_index + per_page
+    end_index = start_index + PER_PAGE
     return end_index
+
+# TODO: age_group 함수 만들기
 
 @app.route('/')
 def index():
@@ -40,19 +41,52 @@ def index():
 def login():
     error = None
     if request.method == 'POST':
+        members = load_file("src/member.csv")
         id_ = request.form['id']
-        password_ = request.form['password']
-        if id_ != 'admin' or password_ != 'admin':
-            error = '아이디나 비밀번호가 틀렸습니다.'
-        else:
-            session['id'] = id_
-            return redirect(url_for('users'))
-    return render_template("index.html", error = error)
+        password = request.form['password']
+
+        for member in members:
+            if id_ == member["Id"]:
+                print(id_, member["Id"])
+                stored_password = member["Password"]
+                if password == stored_password:
+                    session['id'] = id_
+                    return redirect(url_for('users'))
+                else:
+                    error = '비밀번호가 틀렸습니다.'
+                    break
+            error = '존재하지 않는 회원입니다.'
+
+    return render_template("auth/login.html", error = error)
 
 # Log out
 @app.route('/logout')
 def logout():
     session.pop('id', None)
+
+# Signup
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    members = load_file("src/member.csv")
+    error = None
+    if request.method == 'POST':
+        sign_id = request.form['sign_id']
+        password1 = request.form['password1']
+        password2 = request.form['password2']
+
+        if any(member["Id"] == sign_id for member in members):
+            error = '아이디 중복'
+        elif password1 != password2:
+            error = '비밀번호가 일치하지 않습니다.'
+        else:
+            new_member = {"Id": sign_id, "Password": password1}
+            with open("src/member.csv", "a", encoding="utf-8", newline="") as file:
+                fieldnames = ["Id", "Password"]
+                writer = csv.DictWriter(file, fieldnames=fieldnames)
+                writer.writerow(new_member)
+            return redirect(url_for('login'))
+        flash(error)
+    return render_template("auth/signup.html", error = error)
 
 @app.route('/users')
 def users():
@@ -77,7 +111,6 @@ def users():
     start_index = get_start_index(page)
     end_index = get_end_index(start_index)
     page_data = data[start_index:end_index]
-    
     return render_template("users.html", users = page_data, total_pages = total_pages, current_page = page, keywords = keywords)
 
 @app.route('/user_detail/<selected_id>')
@@ -92,8 +125,8 @@ def stores():
     page = request.args.get('page', default=1, type=int)
     stores = load_file("src/store.csv")
 
-    page_data = []
     data = []
+    page_data = []
 
     for store in stores:
         data.append(store)
@@ -102,7 +135,6 @@ def stores():
     start_index = get_start_index(page)
     end_index = get_end_index(start_index)
     page_data = data[start_index:end_index]
-
     return render_template("stores.html", stores = page_data, total_pages = total_pages, current_page = page)
 
 @app.route('/store_detail/<selected_id>')
