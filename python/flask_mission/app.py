@@ -13,6 +13,21 @@ def load_file(file_path):
             data_list.append(data)
     return data_list
 
+# FIXME: 클래스로 만들기?
+per_page = 10
+
+def get_total_pages(data):
+    total_pages = len(data) // per_page + (len(data) % per_page > 0)
+    return total_pages
+
+def get_start_index(page):
+    start_index = per_page * (page - 1)
+    return start_index
+
+def get_end_index(start_index):
+    end_index = start_index + per_page
+    return end_index
+
 @app.route('/')
 def index():
     if 'id' in session:
@@ -44,11 +59,10 @@ def users():
     page = request.args.get('page', default=1, type=int)
     search_name = request.args.get('name', default="", type=str)
     search_gender = request.args.get('gender', default="", type=str)
-
-    per_page = 10
-    page_data = []
-    data = []
     users = load_file("src/user.csv")
+
+    data = []
+    page_data = []
 
     for user in users:
         if search_name in user['Name']:
@@ -59,10 +73,9 @@ def users():
     keywords += "&name=" + search_name
     keywords += "&gender=" + search_gender
 
-    # TODO: 함수로 변경하기
-    total_pages = len(data) // per_page + (len(data) % per_page > 0)
-    start_index = per_page * (page - 1)
-    end_index = start_index + per_page
+    total_pages = get_total_pages(data)
+    start_index = get_start_index(page)
+    end_index = get_end_index(start_index)
     page_data = data[start_index:end_index]
     
     return render_template("users.html", users = page_data, total_pages = total_pages, current_page = page, keywords = keywords)
@@ -76,8 +89,21 @@ def user_detail(selected_id):
 
 @app.route('/stores')
 def stores():
+    page = request.args.get('page', default=1, type=int)
     stores = load_file("src/store.csv")
-    return render_template("stores.html", stores = stores)
+
+    page_data = []
+    data = []
+
+    for store in stores:
+        data.append(store)
+
+    total_pages = get_total_pages(data)
+    start_index = get_start_index(page)
+    end_index = get_end_index(start_index)
+    page_data = data[start_index:end_index]
+
+    return render_template("stores.html", stores = page_data, total_pages = total_pages, current_page = page)
 
 @app.route('/store_detail/<selected_id>')
 def store_detail(selected_id):
@@ -88,8 +114,20 @@ def store_detail(selected_id):
 
 @app.route('/items')
 def items():
+    page = request.args.get('page', default=1, type=int)
     items = load_file("src/item.csv")
-    return render_template("items.html", items = items)
+
+    data = []
+    page_data = []
+    
+    for item in items:
+        data.append(item)
+
+    total_pages = get_total_pages(data)
+    start_index = get_start_index(page)
+    end_index = get_end_index(start_index)
+    page_data = data[start_index:end_index]
+    return render_template("items.html", items = page_data, total_pages = total_pages, current_page = page)
     
 @app.route('/item_detail/<selected_id>')
 def item_detail(selected_id):
@@ -100,16 +138,40 @@ def item_detail(selected_id):
             
 @app.route('/orders')
 def orders():
+    page = request.args.get('page', default=1, type=int)
     orders = load_file("src/order.csv")
-    return render_template("orders.html", orders = orders)
+
+    data = []
+    page_data = []
+    
+    for order in orders:
+        data.append(order)
+
+    total_pages = get_total_pages(data)
+    start_index = get_start_index(page)
+    end_index = get_end_index(start_index)
+    page_data = data[start_index:end_index]
+    return render_template("orders.html", orders = page_data, total_pages = total_pages, current_page = page)
     
 # orderitem_detail
 # @app.route('/orderitem_detail')
 
 @app.route('/order_items')
 def order_items():
+    page = request.args.get('page', default=1, type=int)
     order_items = load_file("src/orderitem.csv")
-    return render_template("order_items.html", order_items = order_items)
+
+    data = []
+    page_data = []
+    
+    for order_item in order_items:
+        data.append(order_item)
+
+    total_pages = get_total_pages(data)
+    start_index = get_start_index(page)
+    end_index = get_end_index(start_index)
+    page_data = data[start_index:end_index]
+    return render_template("order_items.html", order_items = page_data, total_pages = total_pages, current_page = page)
 
 if __name__ == "__main__":
     app.run(debug=True, port=8001)

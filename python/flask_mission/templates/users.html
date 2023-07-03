@@ -35,20 +35,4 @@
   </tr>
   {% endfor %}
 </table>
-<!-- Page Bar -->
-<div class="pagination">
-  {% if current_page != 1 %}
-  <a href="?page=1">처음</a>
-  {% endif %} {% if current_page - 1 > 0 %}
-  <a href="?page={{ current_page - 1 }}{{ keywords }}">{{ current_page - 1}}</a>
-  {% endif %}
-  <a class="current-page" href="?page={{ current_page }}{{ keywords }}"
-    >{{ current_page }}</a
-  >
-  {% if current_page - total_pages < 0 %}
-  <a href="?page={{ current_page + 1 }}{{ keywords }}">{{ current_page + 1}}</a>
-  {% endif %} {% if current_page != total_pages %}
-  <a href="?page={{ total_pages }}{{ keywords }}">끝</a>
-  {% endif %}
-</div>
-{% endblock %}
+{% include "pagination.html" %} {% endblock %}
