@@ -321,10 +321,6 @@ LIMIT 5;
 ```
 
 25. top_3_artists.sql: Provide a query that shows the top 3 best selling artists.
-    artists : ArtistId, Name
-    albums : AlbumId, ArtistId
-    tracks : TrackId, AlbumId
-    invoice_items : Quantity, TrackId
 
 ```
 SELECT A.Name, SUM(II.Quantity)
