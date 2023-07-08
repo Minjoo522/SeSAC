@@ -288,6 +288,56 @@ LIMIT 1;
 ```
 
 23. top_2013_track.sql: Provide a query that shows the most purchased track of 2013.
+    tracks : TrackId, Name
+    invoices : InvoiceId, InvoiceDate
+    invoice_items : InvoiceId, TrackId, Quantity
+
+```
+SELECT T.Name, SUM(II.Quantity)
+FROM tracks T
+INNER JOIN invoice_items II
+ON II.TrackId = T.TrackId
+INNER JOIN invoices I
+ON I.InvoiceId = II.InvoiceId
+WHERE I.InvoiceDate
+BETWEEN DATE('2013-01-01') AND DATE('2013-12-31')
+GROUP BY T.Name
+ORDER BY SUM(II.Quantity) DESC
+LIMIT 1;
+```
+
 24. top_5_tracks.sql: Provide a query that shows the top 5 most purchased songs.
+
+```
+SELECT T.Name, SUM(II.Quantity)
+FROM tracks T
+INNER JOIN invoice_items II
+ON II.TrackId = T.TrackId
+INNER JOIN invoices I
+ON I.InvoiceId = II.InvoiceId
+GROUP BY T.Name
+ORDER BY SUM(II.Quantity) DESC
+LIMIT 5;
+```
+
 25. top_3_artists.sql: Provide a query that shows the top 3 best selling artists.
+    artists : ArtistId, Name
+    albums : AlbumId, ArtistId
+    tracks : TrackId, AlbumId
+    invoice_items : Quantity, TrackId
+
+```
+SELECT A.Name, SUM(II.Quantity)
+FROM artists A
+INNER JOIN albums AL
+ON AL.ArtistId = A.ArtistId
+INNER JOIN tracks T
+ON T.AlbumId = AL.AlbumId
+INNER JOIN invoice_items II
+ON II.TrackId = T.TrackId
+GROUP BY A.Name
+ORDER BY SUM(II.Quantity) DESC
+LIMIT 3;
+```
+
 26. top_media_type.sql: Provide a query that shows the most purchased Media Type.
