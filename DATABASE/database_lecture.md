@@ -171,8 +171,23 @@ SELECT P.Name, COUNT(*) FROM tracks T INNER JOIN playlist_track PT ON T.TrackId 
 ```
 
 16. tracks_no_id.sql: Provide a query that shows all the Tracks, but displays no IDs. The result should include the Album name, Media type and Genre.
+
+```
+SELECT T.Name, A.Title, M.Name, G.Name FROM tracks T INNER JOIN genres G ON T.GenreId == G.GenreId INNER JOIN albums A ON T.AlbumId == A.AlbumId INNER JOIN media_types M ON T.MediaTypeId == M.MediaTypeId;
+```
+
 17. invoices_line_item_count.sql: Provide a query that shows all Invoices but includes the # of invoice line items.
+
+```
+SELECT I.*, SUM(II.Quantity) FROM invoices I INNER JOIN invoice_items II ON I.InvoiceId == II.InvoiceId GROUP BY I.InvoiceId;
+```
+
 18. sales_agent_total_sales.sql: Provide a query that shows total sales made by each sales agent.
+
+```
+SELECT E.EmployeeId, E.FirstName, SUM(II.UnitPrice * II.Quantity) FROM invoice_items II INNER JOIN invoices I ON II.InvoiceId = I.InvoiceId INNER JOIN customers C ON I.CustomerId = C.CustomerId INNER JOIN employees E ON C.SupportRepId = E.EmployeeId GROUP BY E.EmployeeId;
+```
+
 19. top_2009_agent.sql: Which sales agent made the most in sales in 2009?
     Hint: Use the MAX function on a subquery. top_agent.sql: Which sales agent made the most in sales over all?
 20. sales_agent_customer_count.sql: Provide a query that shows the count of customers assigned to each sales agent.
