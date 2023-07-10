@@ -1,5 +1,7 @@
 ## ✨ QUIZ - chinook.db
 
+### [ERD](https://www.erdcloud.com/p/N4PuHsqtbexCAqCwm)
+
 1. non_usa_customers.sql: Provide a query showing Customers (just their full names, customer ID and country) who are not in the US.
 
 ```sql
@@ -77,7 +79,19 @@ ON C.SupportRepId == E.EmployeeId;
 8. total*invoices*{year}.sql: How many Invoices were there in 2009 and 2011?
 
 ```sql
-SELECT COUNT(Total) FROM invoices WHERE InvoiceDate BETWEEN DATE('2009-01-01') AND DATE('2011-12-31');
+SELECT COUNT(Total)
+FROM invoices
+WHERE InvoiceDate
+BETWEEN DATE('2009-01-01') AND DATE('2009-12-31')
+OR InvoiceDate
+BETWEEN DATE('2011-01-01') AND DATE('2011-12-31');
+```
+
+```sql
+SELECT COUNT(I.InvoiceId) AS NumberOfInvoices, STRFTIME('%Y', I.InvoiceDate) AS InvoiceYear
+FROM invoices I
+WHERE InvoiceYear IN ('2009', '2011')
+GROUP BY InvoiceYear
 ```
 
 9. total*sales*{year}.sql: What are the respective total sales for each of those years?
@@ -228,6 +242,15 @@ ORDER BY Sales DESC
 LIMIT 1;
 ```
 
+```sql
+SELECT "Country", MAX("Total Sales For Country") AS "Total Spent"
+FROM (
+  SELECT BillingCountry AS "Country", SUM(Total) AS "Total Sales For Country"
+  FROM invoices
+  GROUP BY BillingCountry
+);
+```
+
 23. top_2013_track.sql: Provide a query that shows the most purchased track of 2013.
     tracks : TrackId, Name
     invoices : InvoiceId, InvoiceDate
@@ -261,7 +284,18 @@ ORDER BY SUM(II.Quantity) DESC
 LIMIT 5;
 ```
 
-25. top_3_artists.sql: Provide a query that shows the top 3 best selling artists.
+25. top_5_tracks.sql: Provide a query that shows the top 5 most purchased songs.
+
+```sql
+SELECT T.Name, COUNT(T.Name) AS "PurchaseCount"
+FROM tracks T
+JOIN invoice_items I ON I.TrackId = T.TrackId
+GROUP BY T.Name
+ORDER BY PurchaseCount
+DESC LIMIT 5;
+```
+
+26. top_3_artists.sql: Provide a query that shows the top 3 best selling artists.
 
 ```sql
 SELECT A.Name, SUM(II.Quantity)
@@ -277,4 +311,8 @@ ORDER BY SUM(II.Quantity) DESC
 LIMIT 3;
 ```
 
-26. top_media_type.sql: Provide a query that shows the most purchased Media Type.
+27. top_media_type.sql: Provide a query that shows the most purchased Media Type.
+
+```
+
+```
