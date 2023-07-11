@@ -15,6 +15,10 @@ body {
   width: 300px;
 }
 
+.form-control::placeholder {
+  color: black;
+}
+
 .buttons {
   margin-top: 5px;
   display: grid;
