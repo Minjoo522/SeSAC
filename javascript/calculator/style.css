@@ -1,0 +1,28 @@
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
+.caculator {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-control {
+  width: 300px;
+}
+
+.buttons {
+  margin-top: 5px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 50px;
+  gap: 4px;
+}
+
+.button {
+  width: 70px;
+}
