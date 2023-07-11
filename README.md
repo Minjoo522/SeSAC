@@ -8,6 +8,6 @@
   - [Flask Mission : Customer Management System](https://github.com/Minjoo522/CRM)
 - [7월 6일, 7월 7일, 7월 10일 : DATABASE](https://github.com/Minjoo522/SeSAC/tree/main/DATABASE)
   - [SQL QUERY QUIZ](https://github.com/Minjoo522/SeSAC/blob/main/DATABASE/database_lecture.md)
-- [7월 11일 : JavaScript, bootstrap]
+- 7월 11일 : JavaScript, bootstrap
   - [JavaScript](https://github.com/Minjoo522/SeSAC/tree/main/javascript)
   - [bootstrap](https://github.com/Minjoo522/SeSAC/tree/main/bootstrap)
