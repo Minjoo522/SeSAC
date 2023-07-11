@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      let color = 'red';
+      function changeCellcolor() {
+        let cells = document.getElementsByTagName('td');
+        if (color === 'red') {
+          color = 'blue';
+          for (let i = 0; i < cells.length; i++) {
+            cells[i].style.backgroundColor = 'red';
+          }
+        } else {
+          color = 'red';
+          for (let i = 0; i < cells.length; i++) {
+            cells[i].style.backgroundColor = 'blue';
+          }
+        }
+      }
+    </script>
+    <title>Table Example</title>
+  </head>
+  <body>
+    <table border="1">
+      <tr>
+        <td>셀 1</td>
+        <td>셀 2</td>
+        <td>셀 3</td>
+      </tr>
+      <tr>
+        <td>셀 4</td>
+        <td>셀 5</td>
+        <td>셀 6</td>
+      </tr>
+      <tr>
+        <td>셀 7</td>
+        <td>셀 8</td>
+        <td>셀 9</td>
+      </tr>
+    </table>
+    <button onclick="changeCellcolor()">색상 변경 버튼</button>
+  </body>
+</html>
