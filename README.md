@@ -6,5 +6,8 @@
 - [6월 27일(화) : CSS](https://github.com/Minjoo522/SeSAC/tree/main/CSS)
 - [6월 28일, 29일, 7월 3일 : Flask](https://github.com/Minjoo522/SeSAC/tree/main/python/Flask)
   - [Flask Mission : Customer Management System](https://github.com/Minjoo522/CRM)
-- [7월 6일, 7월 7일 : DATABASE](https://github.com/Minjoo522/SeSAC/tree/main/DATABASE)
+- [7월 6일, 7월 7일, 7월 10일 : DATABASE](https://github.com/Minjoo522/SeSAC/tree/main/DATABASE)
   - [SQL QUERY QUIZ](https://github.com/Minjoo522/SeSAC/blob/main/DATABASE/database_lecture.md)
+- [7월 11일 : JavaScript, bootstrap]
+  - [JavaScript](https://github.com/Minjoo522/SeSAC/tree/main/javascript)
+  - [bootstrap](https://github.com/Minjoo522/SeSAC/tree/main/bootstrap)
