@@ -1,25 +1,25 @@
 const expression = document.querySelector('.form-control');
 
-function inputExpression(char) {
+function inputValue(value) {
   if (expression.value === '오류') {
-    expression.value = char;
+    expression.value = value;
   } else {
-    expression.value += char;
+    expression.value += value;
   }
-  checkFirstChar(char);
-  checkLastChar();
+  checkFirstValue(value);
+  checkLastValue();
 }
 
-function checkFirstChar(char) {
+function checkFirstValue(value) {
   if (expression.value === '0' || expression.value === null) {
-    expression.value = char === '0' ? '' : char;
+    expression.value = value === '0' ? '' : value;
   }
 }
 
-function checkLastChar() {
+function checkLastValue() {
   const operators = document.querySelectorAll('.operator');
-  const lastChar = expression.value.slice(-1);
-  const isOperator = ['+', '-', '*', '/'].includes(lastChar);
+  const lastValue = expression.value.slice(-1);
+  const isOperator = ['+', '-', '*', '/'].includes(lastValue);
 
   operators.forEach((operator) => {
     if (isOperator) {
