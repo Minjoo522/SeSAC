@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello World</title>
+    <script>
+      function fruitDisplay(fruit) {
+        // let selectBox = document.querySelector('#fruitSelector');
+        // fruit = fruit.value;
+        const fruitResult = document.querySelector('.fruitResult');
+        switch (fruit) {
+          case 'apple':
+            // document.write('이것은 사과입니다<br>');
+            fruitResult.innerHTML = '이것은 사과입니다';
+            break;
+          case 'banana':
+            // document.write('이것은 바나나입니다<br>');
+            fruitResult.innerHTML = '이것은 바나나입니다';
+            break;
+          case 'orange':
+            // document.write('이것은 오렌지입니다');
+            fruitResult.innerHTML = '이것은 오렌지입니다';
+            break;
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <h1>도큐먼트에 자바스크립트로 switch/case 처리하기</h1>
+    <select onchange="fruitDisplay(this.value)" name="" id="fruitSelector">
+      <option value="apple">Apple</option>
+      <option value="banana">Banana</option>
+      <option value="orange">Orange</option>
+    </select>
+    <div class="fruitResult"></div>
+  </body>
+</html>

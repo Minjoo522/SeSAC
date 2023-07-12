@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monthly Revenue</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="{{ url_for('static', filename='js/main.js')}}" defer></script>
+    <!-- Chart.js -->
+  </head>
+  <body>
+    <h1>월간 매출액</h1>
+    <table>
+      <tr>
+        <td>연월</td>
+        <td>월간 매출액</td>
+      </tr>
+      <!-- jinja 템플릿을 통해 받아온 결과를 테이블로 촤라락 -->
+      <!-- 힌트 : for루프 사용 -->
+      {% for row in rows %}
+      <tr>
+        <td class="chartLabel">{{ row[0] }}</td>
+        <td class="chartValue">{{ row[1] }}</td>
+      </tr>
+      {% endfor %}
+      <!-- 미션2. 그래프로 대체해야 함 (chart.js로 대체) -->
+      <div>
+        <canvas id="revenueChart"></canvas>
+      </div>
+    </table>
+    <script>
+      const labels = {{ labels | tojson }};
+      const revenues = {{ revenues | tojson }};
+    </script>
+  </body>
+</html>
