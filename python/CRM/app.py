@@ -27,6 +27,7 @@ def index():
     for row in rows:
         labels.append(row[0])
         revenues.append(row[1])
+    
 
     return render_template("index.html", rows=rows, labels=labels, revenues=revenues)
 
