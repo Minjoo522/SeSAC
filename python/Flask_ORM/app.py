@@ -5,6 +5,7 @@ app = Flask(__name__)
 
 app.secret_key = "this_is_my_secret_key"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
+# 실시간 동기화하지 않고, 내가 원할 때 테이블에 데이터를 기록하고 commit()하는 형태
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -60,7 +61,7 @@ def login():
 @app.route('/delete', methods = ['POST'])
 def delete():
     user = session['username']
-    
+
     if request.method == 'POST':
         action = request.form["action"]
         if action == "DELETE":

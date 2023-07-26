@@ -47,4 +47,28 @@ def user():
 
 ## flash
 
+- 비동기적으로 생성되는 메세지 처리
 - 임시적인 데이터를 보내서 처리하는 것
+- 백그라운드로 처리되는 결과들을 다시 FE 보내줄 때
+
+```python
+# 📂 python
+
+@app.route('/')
+def home():
+    if 'username' in session:
+        flash("Login에 성공하였습니다.")
+    return render_template('index.html')
+```
+
+```html
+<!-- 📂 html -->
+
+{% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+<!-- ✨ for category, message in messages로 하면 category도 출력 가능 -->
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <p>{{ message }}</p>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %} {% endif %} {% endwith %}
+```
