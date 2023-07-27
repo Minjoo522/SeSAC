@@ -1,0 +1,22 @@
+{% extends "base.html" %} {% block title %}프로필 수정{% endblock %} {% block content %}
+<h1 class="text-center">프로필 수정</h1>
+<form action="{{ url_for('profile_edit') }}" method="post">
+  <div class="form-floating mb-3">
+    <input class="form-control" id="floatingInput" type="password" name="new_password" required />
+    <label for="floatingInput">새로운 비밀번호</label>
+  </div>
+  <div class="form-floating mb-3">
+    <input class="form-control" id="floatingInput" type="text" name="new_email" />
+    <label for="floatingInput">새로운 이메일</label>
+  </div>
+  <div class="d-grid gap-2">
+    <input class="btn btn-primary" type="submit" value="수정" />
+  </div>
+</form>
+<form class="d-grid gap-2" action="{{ url_for('main') }}">
+  <input class="btn btn-primary" type="submit" value="홈으로 돌아가기" />
+</form>
+<form class="d-grid gap-2" method="post" action="{{ url_for('logout') }}">
+  <input class="btn btn-primary" type="submit" value="Logout" />
+</form>
+{% endblock %}
