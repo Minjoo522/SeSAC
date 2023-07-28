@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>장바구니</title>
+  </head>
+  <body>
+    <h1>장바구니</h1>
+    <table border="1">
+      <tr>
+        <th>상품명</th>
+        <th>수량</th>
+        <th>가격</th>
+      </tr>
+      {% for selected_item in selected_items %}
+      <tr>
+        <td>{{ selected_item['name'] }}</td>
+        <td>{{ selected_item['quantity'] }}개</td>
+        <td>{{ selected_item['price'] }}원</td>
+        <td><a href="{{ url_for('remove_item_from_cart', item_name = selected_item['name']) }}">X</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+    <p>총 가격 : {{ total_price }}원</p>
+  </body>
+</html>

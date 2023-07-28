@@ -138,7 +138,7 @@ def view_users():
 def withdrawal():
     db.session.delete(current_user)
     db.session.commit()
-    flash('로그아웃 되었습니다.', 'success')
+    flash('탈퇴가 완료 되었습니다.', 'success')
     return redirect(url_for('main'))
 
 if __name__ == "__main__":
