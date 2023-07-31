@@ -1,0 +1,9 @@
+{% extends 'layout.html' %} {% block content %} {% include 'nav.html' %}
+<h1>로그인 사용자의 홈!</h1>
+<p>Welcome, {{ username }}</p>
+<p>You are... {{ first_name }}, {{ last_name }}, {{ email }}</p>
+<form action="{% url 'logout' %}" method="post">
+  {% csrf_token %}
+  <input type="submit" name="" id="" value="로그아웃" />
+</form>
+{% endblock %}
