@@ -1,0 +1,18 @@
+{% extends 'components/layout.html' %} {% block title %}TODO : {{ todo.title }}{% endblock %} {% block content %}
+<h3>{{ todo.title }}</h3>
+<div>{{ todo.content }}</div>
+<div>
+  <span>업로드 날짜 : {{ todo.create_date }}</span><br />
+  <span>수정한 날짜 :</span>
+  {% if todo.update_date %}
+  <span>{{ todo.update_date }}</span>
+  {% else %}
+  <span>수정 기록이 없습니다.</span>
+  {% endif %}
+</div>
+<a href="{% url 'update_todo' todo_id=todo.id %}">수정하기</a>
+<form action="{% url 'delete_todo' %}" method="post">
+  {% csrf_token %}
+  <button type="submit" name="todo_id" value="{{ todo.id }}">삭제하기</button>
+</form>
+{% endblock %}

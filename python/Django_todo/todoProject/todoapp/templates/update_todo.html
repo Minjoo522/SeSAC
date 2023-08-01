@@ -1,0 +1,13 @@
+{% extends 'components/layout.html' %} {% block title %}TODO 수정하기{% endblock %} {% block content %}
+<h1>새로운 TODO 만들기</h1>
+<form action="{% url 'update_todo' todo_id=todo.id %}" method="post">
+  {% csrf_token %}
+  <label for="new_title">제목</label>
+  <input type="text" name="new_title" id="new_title" value="{{ todo.title }}" required />
+  <br />
+  <label for="new_content">내용</label>
+  <textarea name="new_content" id="new_content" rows="5" cols="30">{{ todo.content }}</textarea>
+  <br />
+  <button type="submit">수정하기</button>
+</form>
+{% endblock %}

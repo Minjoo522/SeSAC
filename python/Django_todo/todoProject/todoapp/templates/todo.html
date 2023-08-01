@@ -1,0 +1,9 @@
+{% extends 'components/layout.html' %} {% block title %}TODO 목록{% endblock %} {% block content %}
+<h1>TODO LIST</h1>
+<ul>
+  {% for todo in todos %}
+  <li><a href="{% url 'todo_description' todo_id=todo.id %}">{{ todo.title }}</a></li>
+  {% endfor %}
+</ul>
+<a href="{% url 'create_todo' %}">새로운 TODO 만들기</a>
+{% endblock %}

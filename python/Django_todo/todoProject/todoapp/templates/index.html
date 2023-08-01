@@ -1,0 +1,5 @@
+{% extends 'components/layout.html' %} {% block title %}TODO Home{% endblock %} {% block content %}
+<form action="{% url 'todo' %}">
+  <button type="submit">todo 실행하기</button>
+</form>
+{% endblock %}
