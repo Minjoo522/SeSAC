@@ -1,0 +1,13 @@
+{% extends 'components/layout.html' %} {% block title %}result{% endblock %} {% block content %}
+<h1>설문 결과</h1>
+<ul>
+  {% for choice in choices %}
+  <li>{{ choice.choice }} : {{ choice.votes }}</li>
+  {% endfor %}
+</ul>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">다시 선택하기</button>
+</form>
+<a href="{% url 'polls_list' %}">설문 목록으로 돌아가기</a>
+{% endblock %}

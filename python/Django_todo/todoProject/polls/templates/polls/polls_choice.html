@@ -1,0 +1,10 @@
+{% extends 'components/layout.html' %} {% block title %}answer{% endblock %} {% block content %}
+<h1>하나를 골라주세요</h1>
+<form action="#" method="post">
+  {% csrf_token %} {% for choice in choices %}
+  <input type="radio" id="{{ choice.pk }}" name="choice" value="{{ choice.pk }}" />
+  <label for="{{ choice.pk }}">{{ choice.choice }}</label><br />
+  {% endfor %}
+  <button type="submit">제출하기</button>
+</form>
+{% endblock %}
