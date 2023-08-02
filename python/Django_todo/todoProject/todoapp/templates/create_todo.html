@@ -1,6 +1,6 @@
 {% extends 'components/layout.html' %} {% block title %}TODO 만들기{% endblock %} {% block content %}
 <h1>새로운 TODO 만들기</h1>
-<form action="{% url 'create_todo' %}" method="post">
+<form method="post">
   {% csrf_token %}
   <label for="title">제목</label>
   <input type="text" name="title" id="title" required />

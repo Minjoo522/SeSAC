@@ -10,9 +10,10 @@
   <span>수정 기록이 없습니다.</span>
   {% endif %}
 </div>
-<a href="{% url 'update_todo' todo_id=todo.id %}">수정하기</a>
+<a href="{% url 'update_todo' todo.id %}">수정하기</a>
 <form action="{% url 'delete_todo' %}" method="post">
   {% csrf_token %}
   <button type="submit" name="todo_id" value="{{ todo.id }}">삭제하기</button>
 </form>
+<a href="{% url 'todo' %}">홈으로</a>
 {% endblock %}
