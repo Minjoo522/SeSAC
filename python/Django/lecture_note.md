@@ -179,3 +179,111 @@ class Photo(models.Model):
 </li>
 {% endfor %}
 ```
+
+## Test
+
+- 테스트를 원하는 앱의 tests.py에서 실행
+- TestSuite : 여러 개의 테스트 케이스의 묶음(여기서는 class가 현재 "테스팅" 개념 중에서, TestSuite의 역할을 하고 있음)
+
+```python
+# 📂 tests.py
+from django.test import TestCase
+from .models import Todo
+
+# 클래스 이름 뒤에 Tests라고 하는 게 일반적
+# 함수 이름 앞에 test라고 하는 게 일반적
+class TodoModelTests(TestCase):
+    def test_str_representation(self):
+        todo = Todo.objects.create(title="Test Todo", content="테스트하기 위한 나의 Todo 항목")
+        # 내가 원하는 테스트 케이스가 잘 작동하는지 확인하기 위한 구문
+        self.assertEqual(str(todo), "Test Todo")
+```
+
+```bash
+python manage.py test todoapp
+
+# ✨ 결과
+Found 1 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+### views 관련 테스트
+
+```python
+# 뷰 페이지 테스트
+class TodoViewTests(TestCase):
+    def test_todo_list_view(self):
+        # ✨ 함수의 url을 거꾸로 가져와서 잘 실행 되는지 보고자 셋업
+        response = self.client.get(reverse("todo"))
+        self.assertEqual(response.status_code, 200)
+        # ✨ html 파일을 잘 매칭해서 불러오고 있는지 확인
+        self.assertTemplateUsed(response, "todo.html")
+        # print(response)
+        # .<HttpResponse status_code=200, "text/html; charset=utf-8">
+        # print(response.status_code)
+        # 200
+        # print(response.content)
+        # b'<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <link\n      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"\n      rel="stylesheet"\n      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"\n      crossorigin="anonymous" />\n    <script\n      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"\n      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"\n      crossorigin="anonymous"\n      defer></script>\n    <title>TODO \xeb\xaa\xa9\xeb\xa1\x9d</title>\n  </head>\n  <body>\n    \n<h1>TODO LIST</h1>\n<ul>\n  \n</ul>\n<a href="/todo/new-todo">\xec\x83\x88\xeb\xa1\x9c\xec\x9a\xb4 TODO \xeb\xa7\x8c\xeb\x93\xa4\xea\xb8\xb0</a>\n\n  </body>\n</html>\n'
+
+    def test_todo_desc_view(self):
+        todo = Todo.objects.create(title="Test1", content="Test111")
+        response = self.client.get(reverse("todo_description", args=(todo.pk,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "todo_description.html")
+        # 원하는 항목이 잘 포함되었는지 확인
+        self.assertContains(response, "Test1")
+        self.assertContains(response, "Test111")
+
+    def test_create_todo_view(self):
+        response = self.client.get(reverse("create_todo"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "create_todo.html")
+
+        data = {
+            "title": "Test2",
+            "content": "This is my test case 2",
+        }
+        data2 = {
+            "title": "Test2",
+            "content": "This is my test case 2",
+        }
+
+        response = self.client.post(reverse("create_todo"), data)
+        # ✨ 리다이렉트 했기 때문에 ➡️ 리다이렉트에 대한 응답값 : 302
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Todo.objects.count(), 1)
+
+        # ✨ DB에 잘 들어갔는지 확인
+        response = self.client.post(reverse("create_todo"), data2)
+        self.assertEqual(Todo.objects.count(), 2)
+
+    def test_update_todo_view(self):
+        # 화면 표시 이상 여부 확인
+        todo = Todo.objects.create(title="Test", content="Test content")
+        response = self.client.get(reverse("update_todo", args=(todo.pk, )))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "update_todo.html")
+
+        # 데이터 update 수행 확인
+        data = {
+            "new_title": "test update",
+            "new_content": "test content update",
+        }
+
+        response = self.client.post(reverse("update_todo", args=(todo.pk,)), data)
+
+        # 전달될 데이터 반영 확인
+        self.assertEqual(response.status_code, 302)
+
+        # DB로부터 todo 내용 재갱신
+        todo.refresh_from_db()
+        self.assertEqual(todo.title, "test update")
+        self.assertEqual(todo.content, "test content update")
+```
