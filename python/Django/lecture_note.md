@@ -144,10 +144,30 @@ from django.conf.urls.static import static
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ```
 
+### 라이브러리 설치
+
 ```bash
 # 이미지 파일을 관리하는 라이브러리
 python -m pip install Pillow
 ```
+
+### model 만들기
+
+```python
+# 📂 models.py
+from django.db import models
+
+class Photo(models.Model):
+    title = models.CharField(max_length=200, blank=False)
+    # DB에는 경로에 대한 url이 들어가고, 사진은 photos/ 폴더를 만들어서 업로드
+    image = models.ImageField(upload_to='photos/', null=False)
+    upload_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+```
+
+### html에서 불러오기
 
 ```html
 <!-- {{ photo.image.url }}로 path 불러옴 -->
