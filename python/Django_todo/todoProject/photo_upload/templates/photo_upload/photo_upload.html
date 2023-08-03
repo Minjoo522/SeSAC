@@ -1,0 +1,11 @@
+{% extends 'components/layout.html' %} {% block title %}Photo upload{% endblock %} {% block content %}
+<h1>사진 올리기</h1>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <label for="title">Title: </label>
+  <input type="text" name="title" id="title" required /><br />
+  <label for="image">Image: </label>
+  <input type="file" name="image" id="image" required /><br />
+  <input type="submit" value="업로드하기" />
+</form>
+{% endblock %}

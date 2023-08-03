@@ -1,0 +1,13 @@
+{% extends 'components/layout.html' %} {% block title %}Image List{% endblock %} {% block content %}
+<h1>이미지 보기</h1>
+<ul>
+  {% for photo in photos %}
+  <li>
+    <div>Title : {{ photo.title }}</div>
+    <img src="{{ photo.image.url }}" alt="{{ photo.title }}" />
+    <div>업로드 일자 : {{ photo.upload_date }}</div>
+  </li>
+  {% endfor %}
+</ul>
+<a href="{% url 'photo_upload' %}">이미지 추가하기</a>
+{% endblock %} i

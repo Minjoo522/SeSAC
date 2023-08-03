@@ -11,7 +11,7 @@
   {% endif %}
 </div>
 <a href="{% url 'update_todo' todo.id %}">수정하기</a>
-<form action="{% url 'delete_todo' %}" method="post">
+<form action="{% url 'delete_todo' %}" method="DELETE">
   {% csrf_token %}
   <button type="submit" name="todo_id" value="{{ todo.id }}">삭제하기</button>
 </form>

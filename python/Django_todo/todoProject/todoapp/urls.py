@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     path("", views.home, name="home"),
     path("todo/", views.todo, name="todo"),
-    path("create/", views.create_todo, name="create_todo"),
+    path("todo/new-todo", views.create_todo, name="create_todo"),
     # <int:pk>로 전달해도 됨
     path("todo/<int:todo_id>/", views.todo_description, name="todo_description"),
     path("update/<int:todo_id>/", views.update_todo, name="update_todo"),

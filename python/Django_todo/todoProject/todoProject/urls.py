@@ -16,9 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include('todoapp.urls')),
     path('polls/', include('polls.urls')),
+    path('photo/', include('photo_upload.urls')),
+    # static('/media', BASE_DIR/upload/photos), # 이렇게 하지말고 아래 처럼!
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

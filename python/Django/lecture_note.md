@@ -117,3 +117,45 @@ message_to_delete = Message.objects.get(id=3)
 message_to_delete = Message.objects.filter(text='안녕~~~')
 message_to_delete.delete()
 ```
+
+## 🎆 이미지 업로드
+
+### DB
+
+- 디스크의 파일 경로(path / 서버에 바이너리 데이터를 저장하기 위한 공간) / 파일의 정보만 저장
+- AWS ➡️ S3 저장소
+- 플랫폼의 링크(유튜브...)
+
+### 기본 경로 셋업
+
+```python
+# 📂 settings.py
+
+# ✨ 우리 프로젝트 전체의 미디어 업로드 폴더 생성
+MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')
+
+# ✨ 웹 컴포넌트가 이 미디어 폴더를 어떤 URI로 접근할건지
+MEIDA_URL = '/media/'
+
+# 📂 프로젝트 ➡️ urls.py
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+```
+
+```bash
+# 이미지 파일을 관리하는 라이브러리
+python -m pip install Pillow
+```
+
+```html
+<!-- {{ photo.image.url }}로 path 불러옴 -->
+{% for photo in photos %}
+<li>
+  <div>Title : {{ photo.title }}</div>
+  <img src="{{ photo.image.url }}" alt="{{ photo.title }}" />
+  <div>업로드 일자 : {{ photo.upload_date }}</div>
+</li>
+{% endfor %}
+```
