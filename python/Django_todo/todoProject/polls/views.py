@@ -8,8 +8,8 @@ def polls_list(request):
 def polls_choice(request, question_id):
     choices = Choice.objects.filter(question=question_id).all()
     if request.method == "POST":
-      selected_choice = request.POST["choice"]
-      choice = Choice.objects.get(pk=selected_choice)
+      choice = request.POST["choice"]
+      choice = Choice.objects.get(pk=choice)
       choice.votes += 1
       choice.save()
       return redirect("polls_result", question_id, choice.pk)
