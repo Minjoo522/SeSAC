@@ -1,0 +1,135 @@
+{% extends "components/layout.html" %}{% block title %}메모장 1.0{% endblock %} {% block content %}
+<div class="wrap w-75 p-3 mx-auto">
+  <div
+    class="p-3 mb-2 bg-secondary-subtle text-emphasis-secondary rounded-top shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+    <div class="input-container">
+      <div class="form-group">
+        <h1 class="text-center" style="font-weight: bold">메모장</h1>
+      </div>
+      <div class="form-group">
+        <input type="text" id="input-title" class="form-control" name="title" placeholder="제목을 입력하세요" />
+      </div>
+      <div class="form-group">
+        <textarea
+          name="message"
+          id="input-text"
+          cols="30"
+          rows="2"
+          class="form-control"
+          placeholder="내용을 입력하세요"></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <button onclick="uploadPost()" type="submit" class="btn btn-primary" style="margin-top: 0.5rem">저장하기</button>
+    </div>
+  </div>
+  <div class="card-list-wrap d-flex justify-content-center" style="flex-wrap: wrap"></div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function uploadPost() {
+    let title = $('#input-title').val();
+    let text = $('#input-text').val();
+
+    console.log(title, text);
+
+    $.ajax({
+      type: 'post',
+      url: '/create',
+      // contentType: "application/x-www-form-urlencoded", // 기본 값
+      // 그래서 back에서 form으로 받았음
+      data: {
+        title: title,
+        message: text,
+      },
+      success: function (resp) {
+        location.reload();
+      },
+    });
+  }
+
+  function makeCard(id, title, message) {
+    let cardContent = `
+    <div id="id${id}" class="card" style="width: 18rem">
+      <div class="card-body">
+          <h5 class="card-title title${id}" style="font-weight: bold">${title}</h5>
+          <p class="card-text text${id}">
+            ${message}
+          </p>
+          <div class="btns">
+            <button onclick="updateCardBox(${id})" class="update-btn btn btn-primary">수정</button>
+            <button onclick="deleteCard(${id})" class="btn btn-danger">삭제</button>
+          </div>
+        </div>
+      </div>
+      `;
+    // const cardListWrap = document.querySelector('.card-list-wrap');
+    // cardListWrap.innerHTML += cardContent;
+    $('.card-list-wrap').append(cardContent);
+  }
+
+  $('document').ready(() => {
+    $.ajax({
+      type: 'get',
+      url: '/list',
+      // data: {}, get 요청에선 필요 x
+      success: (resp) => {
+        for (let i = 0; i < resp.length; i++) {
+          makeCard(resp[i]['id'], resp[i]['title'], resp[i]['message']);
+        }
+      },
+    });
+  });
+
+  function deleteCard(id) {
+    $.ajax({
+      type: 'post',
+      url: '/delete',
+      data: {
+        id: id,
+      },
+      success: (resp) => {
+        const selectedCard = document.querySelector(`#id${id}`);
+        selectedCard.style.display = 'none';
+      },
+    });
+  }
+
+  function updateCardBox(id) {
+    const updateCard = document.querySelector(`#id${id}`);
+    const currentTitle = document.querySelector(`.title${id}`).innerText;
+    const currentMessage = document.querySelector(`.text${id}`).innerText;
+    updateCard.innerHTML = `
+      <div class="card-body">
+        <div class="form-group">
+          <input type="text" id="input-title" class="form-contorl new-title${id}" name="title" value="${currentTitle}" />
+        </div>
+        <div class="form-group">
+          <textarea name="message" id="input-text" rows="3" class="form-control new-text${id}">${currentMessage}</textarea>
+        </div>
+        <div class="btns">
+          <button onclick="updateCard(${id})" class="btn btn-primary">수정</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function updateCard(id) {
+    const newTitle = document.querySelector(`.new-title${id}`).value;
+    const newMessage = document.querySelector(`.new-text${id}`).value;
+
+    $.ajax({
+      type: 'post',
+      url: '/update',
+      data: {
+        id: id,
+        title: newTitle,
+        message: newMessage,
+      },
+      success: function (resp) {
+        location.reload();
+      },
+    });
+  }
+</script>
+{% endblock %}

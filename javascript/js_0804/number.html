@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>숫자 :</h1>
+    <div class="num"></div>
+    <button id="plus">증가</button>
+    <button id="minus">감소</button>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      let num = 1;
+      // document.addEventListener('DOMContentLoaded', () => {
+      //   const numDiv = document.querySelector('.num');
+      //   const plusBtn = document.querySelector('#plus');
+      //   const minusBtn = document.querySelector('#minus');
+
+      //   plusBtn.addEventListener('click', () => {
+      //     numDiv.innerText = ++num;
+      //   });
+      //   minusBtn.addEventListener('click', () => {
+      //     numDiv.innerText = --num;
+      //   });
+      // });
+      $(document).ready(() => {
+        $('.num').html(num);
+        $('#plus').click(() => {
+          $('.num').html(++num);
+        });
+        $('#minus').click(() => {
+          $('.num').html(--num);
+        });
+      });
+    </script>
+  </body>
+</html>
