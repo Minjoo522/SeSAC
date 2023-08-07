@@ -49,7 +49,7 @@
   }
 
   function makeCard(id, title, message) {
-    let cardContent = `
+    const cardContent = `
     <div id="id${id}" class="card" style="width: 18rem">
       <div class="card-body">
           <h5 class="card-title title${id}" style="font-weight: bold">${title}</h5>
@@ -89,8 +89,9 @@
         id: id,
       },
       success: (resp) => {
-        const selectedCard = document.querySelector(`#id${id}`);
-        selectedCard.style.display = 'none';
+        // const selectedCard = document.querySelector(`#id${id}`);
+        // selectedCard.style.display = 'none';
+        $(`#id${id}`).css('display', 'none');
       },
     });
   }
