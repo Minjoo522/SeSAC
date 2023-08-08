@@ -1,13 +1,15 @@
 {% extends 'layout.html' %}
 {% block title %}영화 랭킹{% endblock %}
 {% block content %}
-  <h1 style="text-align: center; margin: 1.5rem; color: palevioletred;">영화 랭킹</h1>
-  <ul>
-    {% for date in dates %}
-      <li>
-        <!-- 튜플로 받아와지기 때문에 [0] 인덱싱 처리 -->
-        <a href="{{ url_for('ranking', date=date[0]) }}">{{ date[0] }}</a>
-      </li>
-    {% endfor %}
-  </ul>
+  <main class="index__main">
+    <h1 class="main__title">일자별 영화 랭킹</h1>
+    <ul class="dates">
+      {% for date in dates %}
+        <li class="date">
+          <!-- 튜플로 받아와지기 때문에 [0] 인덱싱 처리 -->
+          <a href="{{ url_for('ranking', date=date[0]) }}">{{ date[0] }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </main>
 {% endblock %}

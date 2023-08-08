@@ -6,7 +6,9 @@ CREATE TABLE movies(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   title VARCHAR(200) NOT NULL,
   link VARCHAR(200),
-  summary VARCHAR(200)
+  summary VARCHAR(200),
+  thumbnail_img VARCHAR(200),
+  big_img VARCHAR(200)
   );
 
 CREATE TABLE rankings(

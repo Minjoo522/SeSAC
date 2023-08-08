@@ -1,0 +1,28 @@
+.index__main {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dates {
+  margin: 0.5rem;
+}
+
+.date {
+  color: black;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(255, 255, 255, 0.648);
+  transition: all 300ms ease-in;
+}
+
+.date:hover {
+  transform: scale(1.05);
+}

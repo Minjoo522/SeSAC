@@ -26,9 +26,15 @@ for i, movie_info in enumerate(movie_infos):
 # 3. 없으면 정보를 추가해준다
         link = movie_url + movie_info.select_one('.link_story')['href'] 
         summary = movie_info.select_one('.link_story').text.strip()
+        thumbnail_img = movie_info.select_one('.img_thumb')['src']
 
-        sql = 'INSERT INTO movies(title, link, summary) VALUES(?, ?, ?)'
-        db.execute_query(sql, (title, link, summary))
+        # big img 구하기
+        img_data = requests.get(link)
+        img_soup = BeautifulSoup(img_data.text, 'html.parser')
+        big_img = img_soup.select_one('meta[property="og:image"]')['content']
+
+        sql = 'INSERT INTO movies(title, link, summary, thumbnail_img, big_img) VALUES(?, ?, ?, ?, ?)'
+        db.execute_query(sql, (title, link, summary, thumbnail_img, big_img))
         db.commit()
 # 4. 영화 이름을 기준으로 찾아서 rankings에 넣어준다(movie_id(FK) = id(movies))
     rating = float(movie_info.select_one('.txt_grade').text)

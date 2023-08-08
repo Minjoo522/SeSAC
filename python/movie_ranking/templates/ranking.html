@@ -1,31 +1,37 @@
 {% extends 'layout.html' %}
 {% block title %}영화 랭킹{% endblock %}
 {% block content %}
-  <h1 style="text-align: center; margin: 1.5rem; color: palevioletred;">{{ date }} 영화 랭킹</h1>
-  <table class="table">
-    <thead>
-      <tr align="center">
-        <th scope="col">순위</th>
-        <th scope="col">이름</th>
-        <th scope="col">평점</th>
-        <th scope="col">예매율</th>
-        <th scope="col">설명</th>
-        <th scope="col">링크</th>
-      </tr>
-    </thead>
-    <tbody class="table-group-divider">
+  <main class="ranking__main">
+    <header class="ranking__header">
+      <h1 class="main__title">
+        {{ date }}
+        <br>
+        영화 랭킹
+      </h1>
+    </header>
+    <section class="movies__section">
+      <!-- <section class="movies__section"> -->
       {% for movie in movies %}
-        <tr>
-          <td scope="row" style="text-align: center;">{{ movie['ranking'] }}위</td>
-          <td width="10%">{{ movie['title'] }}</td>
-          <td style="text-align: center;">⭐️ {{ movie['rating'] }}점</td>
-          <td style="text-align: center;">{{ movie['reservation_rate'] }}%</td>
-          <td width="50%">{{ movie['summary'] }}</td>
-          <td style="text-align: center;">
-            <a href="{{ movie['link'] }}">🎬</a>
-          </td>
-        </tr>
+        <article class="movie__article">
+          <div class="movie__info">
+            <div class="movie__link">
+              <a href="{{ movie['big_img'] }}" class="movie__img-link">
+                <img src="{{ movie['thumbnail_img'] }}"
+                     alt="{{ movie['title'] }} 포스터"
+                     class="movie__img">
+                <div class="movie__summary">{{ movie['summary'] }}</div>
+              </a>
+            </div>
+            <div class="movie__title">{{ movie['title'] }}</div>
+            <div class="movie__rating">
+              <i class="rating__icon fa-solid fa-star"></i> {{ movie['rating'] }}
+            </div>
+            <div class="movie__reservation-rate">예매율 : {{ movie['reservation_rate'] }}%</div>
+            <a href="{{ movie['link'] }}" class="movie__detail-link">상세 보기</a>
+          </div>
+        </article>
       {% endfor %}
-    </tbody>
-  </table>
+      <!-- </section> -->
+    </section>
+  </main>
 {% endblock %}
