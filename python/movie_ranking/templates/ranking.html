@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% block title %}영화 랭킹{% endblock %}
+{% block content %}
+  <h1 style="text-align: center; margin: 1.5rem; color: palevioletred;">{{ date }} 영화 랭킹</h1>
+  <table class="table">
+    <thead>
+      <tr align="center">
+        <th scope="col">순위</th>
+        <th scope="col">이름</th>
+        <th scope="col">평점</th>
+        <th scope="col">예매율</th>
+        <th scope="col">설명</th>
+        <th scope="col">링크</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      {% for movie in movies %}
+        <tr>
+          <td scope="row" style="text-align: center;">{{ movie['ranking'] }}위</td>
+          <td width="10%">{{ movie['title'] }}</td>
+          <td style="text-align: center;">⭐️ {{ movie['rating'] }}점</td>
+          <td style="text-align: center;">{{ movie['reservation_rate'] }}%</td>
+          <td width="50%">{{ movie['summary'] }}</td>
+          <td style="text-align: center;">
+            <a href="{{ movie['link'] }}">🎬</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
