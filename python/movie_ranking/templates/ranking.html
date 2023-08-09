@@ -10,15 +10,12 @@
       </h1>
     </header>
     <section class="movies__section">
-      <!-- <section class="movies__section"> -->
       {% for movie in movies %}
         <article class="movie__article">
           <div class="movie__info">
             <div class="movie__link">
               <a href="{{ movie['big_img'] }}" class="movie__img-link">
-                <img src="{{ movie['thumbnail_img'] }}"
-                     alt="{{ movie['title'] }} 포스터"
-                     class="movie__img">
+                <img src="{{ movie['thumbnail_img'] }}" alt="{{ movie['title'] }} 포스터" class="movie__img">
                 <div class="movie__summary">{{ movie['summary'] }}</div>
               </a>
             </div>
@@ -31,7 +28,6 @@
           </div>
         </article>
       {% endfor %}
-      <!-- </section> -->
     </section>
   </main>
 {% endblock %}

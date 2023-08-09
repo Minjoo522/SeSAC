@@ -6,7 +6,7 @@
     <ul class="dates">
       {% for date in dates %}
         <li class="date">
-          <!-- 튜플로 받아와지기 때문에 [0] 인덱싱 처리 -->
+          <!-- 리스트 내부 튜플로 받아와지기 때문에 인덱싱 처리 -->
           <a href="{{ url_for('ranking', date=date[0]) }}">{{ date[0] }}</a>
         </li>
       {% endfor %}

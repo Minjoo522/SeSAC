@@ -8,6 +8,7 @@ class DbController:
     def connect(self):
         self.conn = sqlite3.connect('movies.sqlite', check_same_thread=False)
         self.cursor = self.conn.cursor()
+        # dictcursor
 
     def connect_to_row(self):
         self.conn = sqlite3.connect('movies.sqlite', check_same_thread=False)
