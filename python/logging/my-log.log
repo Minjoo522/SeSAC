@@ -1,0 +1,12 @@
+2023-08-21 13:47:14,842 - my-logger - WARNING - 헬로우3
+2023-08-21 13:47:14,842 - my-logger - ERROR - 헬로우2
+2023-08-21 13:47:14,842 - my-logger - CRITICAL - 헬로우1
+2023-08-21 13:51:02,363 - my-logger - INFO - 헬로우4
+2023-08-21 13:51:02,363 - my-logger - WARNING - 헬로우3
+2023-08-21 13:51:02,363 - my-logger - ERROR - 헬로우2
+2023-08-21 13:51:02,364 - my-logger - CRITICAL - 헬로우1
+2023-08-21 13:51:14,444 - my-logger - DEBUG - 헬로우5
+2023-08-21 13:51:14,444 - my-logger - INFO - 헬로우4
+2023-08-21 13:51:14,444 - my-logger - WARNING - 헬로우3
+2023-08-21 13:51:14,444 - my-logger - ERROR - 헬로우2
+2023-08-21 13:51:14,444 - my-logger - CRITICAL - 헬로우1
