@@ -58,4 +58,4 @@ def remove_item_from_cart(item_name):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8001)
+    app.run(host="0.0.0.0")

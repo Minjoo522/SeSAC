@@ -53,4 +53,4 @@ def admin():
 # 다른 함수에 전달!
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0")
