@@ -88,7 +88,7 @@ echo "<h1> Welcome to LightSail from mjkim </h1>" > index.html
 - ssh -i <키파일> <계정명>@<서버IP>
 - Bitnami (nginx 웹서버를 만든 회사 이름) / LAMP(Linux + Apahche + MySQL + PHP)
 - 클라우드에서는 id/pw(Type1) 사용하지 않음 : 보안에 취약하기 때문에 Type2를 이용해서 인증함 / .pem : 개인키 파일 확장자 ➡️ compromised 된 키는 폐기해야 함
-
+- [scp manual](https://linux.die.net/man/1/scp)
 ~~~zsh
 chmod 600 LightsailDefaultKey-ap-northeast-2.pem
 # 파일 복사하기 / 복사할 파일이 있는 폴더 안에서!
@@ -112,4 +112,146 @@ curl localhost:5000
     if __name__ == "__main__":
       app.run(host="0.0.0.0")
     ~~~
-  - 다시 파일 복사 후 다시 실행
+  - 다시 파일 복사 후 다시 **실행**
+
+## 보안계층
+- 클라우드(SG)
+- OS(iptables/netfilter/network/socket)
+- Application(socket요청시옵션/인증/인가)
+
+~~~zsh
+# 서버에 접속한 사람 알아보기
+sudo lastb
+# 패스워드를 쓰지 않으므로 이 서버는 절대로 뚫리진 않음
+~~~
+
+## AWS 비용
+- PATG(Pay as you go)
+- 프리티어
+- 온디맨드 요금 : 필요할 때 필요한 만큼 / 분단위(60초)로 과금
+
+### 서버 유형
+1. EC2(Elastic Compute Cloud) 인스턴스 유형
+   1. t2 계열 : 범용 / t3a : amd 메모리, 나머지 : intel
+   2. m5 계열 : 메모리
+   3. c5 계열 : 컴퓨팅
+   4. r5 계열 : 메모리(데이터베이스)
+
+2. RDS(Relational Database Service) 인스턴스 유형
+3. ECS(Elastic Containter Service) 인스턴스 유형
+
+### 국가별 차이
+- 임대료, 전기세, 인건비 등의 차이 때문에 국가별로 가격이 다름
+- 레이턴시 차이 있음
+
+### 고정 IP
+- 사용하지 않으면 비용 부과(IP 낭비하는 것이기 때문에)
+
+### 데이터 저장소(EBS - EC2에 붙는 storage)
+- 용량만으로 가격이 결정되지 않음 ➡️ 성능❗️
+- 데이터를 얼마나 썼느냐에 따라서도 과금 ➡️ HDD, SSD 등등은 소모품이기 때문에
+- 결론 : 처리 속도가 빠를수록 비싸다❗️
+
+### ✨ 결론 : 컴퓨팅 파워(CPU/메모리) + 스토리지 + 데이터 전송 + 기타(IP) ➕ 쓴만큼 낸다
+<!-- <img src="./img/js.png" width="300px" /> -->
+
+## EC2
+### 인스턴스 생성
+<img src="img/1.jpeg" width="300px" />
+<img src="img/2.jpeg" width="300px" />
+<img src="img/3.jpeg" width="300px" /><br>
+- 리눅스보다 윈도우가 비싸고 보편적으로 우분투 많이 씀
+- 우분투 22.04가 기본 값 / 우리 수업에서는 20.04를 쓸 것임<br>
+<img src="img/4.jpeg" width="300px" /><br>
+- 이론적으로는 서버마다 하나의 key를 쓰는게 좋지만 업무상 나의 PC 당 하나의 key를 쓰는 게 더 좋다
+- 개인키 카톡방 공유 : 잘못된 것 ➡️ 계정 따로따로 관리(리눅스 수업 때 배울 예정)
+- 이 key가 탈취 도난 방지하기 위한 방안이 없으면 ssh같은 접속해주는 소프트웨어들이 싫어한다(신뢰 할 수 없다고 하기도 함)
+  - 안전한 공간 : 윈도우 ➡️ c:\users\(맥북도 리눅스도 다른 사용자가 접근 못하도록 권한 설정 할 수 있음)<br>
+<img src="img/5.jpeg" width="300px" />
+<img src="img/6.jpeg" width="300px" /><br>
+- 원래 VPC, AZ, Subnet, Route, IGW 등 직접 설정해야하지만 default 설정 있음 ➡️ 우리 수업 땐 default로 쓸 것임<br>
+<img src="img/7.jpeg" width="300px" />
+
+### (새 창!)보안 그룹 생성
+- 보안 그룹 만들기 ➡️ **새 창**에서!<br>
+<img src="img/10.jpeg" width="300px" />
+<img src="img/11.jpeg" width="300px" />
+<img src="img/8.jpeg" width="300px" /><br>
+- 인바운드 규칙 : 소스 유형 ➡️ 보안적으로는 내 IP가 좋다
+  - 우리 수업 땐 학습적인 목적으로 Anywhere-IPv4
+  - 설명은 써두는 것이 좋은 습관!(뭔지 나중에 알기 편하게 하려고)<br>
+<img src="img/9.jpeg" width="300px" /><br>
+- 아웃바운드는 나가는 것은 다 허용해주는 것이 기본 값 ➡️ 웬만하면 손대지 않는 것이 좋음<br>
+<img src="img/12.jpeg" width="300px" /><br>
+- 태그 : 안 넣어도 되지만 넣는 것이 좋은 습관!<br>
+<img src="img/13.jpeg" width="300px" /><br>
+
+### 다시 인스턴스 생성 창으로 돌아와서
+<img src="img/13.jpeg" width="300px" />
+<img src="img/14.jpeg" width="300px" /><br>
+- 스토리지 : 지금은 기본값(8GB) 그대로 사용할 것임<br>
+<img src="img/15.jpeg" width="300px" /><br>
+- 인스턴스 시작 버튼 클릭하면 생성 완료!<br>
+<img src="img/16.jpeg" width="300px" /><br>
+
+### 인스턴스 정보 확인 창
+<img src="img/17.jpeg" width="300px" /><br>
+
+- 아이디
+  - 우분투 : ubuntu
+  - AmazonLinux : ec2-user
+  - Redhat : root
+### 터미널에서 서버로 접속(공인IP)
+~~~zsh
+# 내 키가 있는 경로로 들어가서!
+ssh -i mjkim-key.pem ubuntu@3.92.243.189
+~~~
+
+### 웹 콘솔
+  - 웹 콘솔로 들어갈 수도 있는데 우리 수업에서는 권한 설정 안하셨음<br>
+<img src="img/19.jpeg" width="300px" /><br>
+<img src="img/18.jpeg" width="300px" /><br>
+
+- 인스턴스 유형 확인<br>
+<img src="img/20.jpeg" width="300px" /><br>
+
+### 서버 관리
+- 껐다 킬 때마다 IP 주소가 달라짐
+- 인스턴스 종료 : 폐기❗️❗️❗️ 중지와 다름❗️❗️❗️ ➡️ 종료방지기능 활성화<br>
+<img src="img/21.jpeg" width="300px" /><br>
+<img src="img/22.jpeg" width="300px" /><br>
+<img src="img/23.jpeg" width="300px" /><br>
+
+- 종료 동작 변경 : 운영체제가 종료될 때의 행동을 정함 ➡️ OS 종료할 때 ➡️ 중지 // 종료로 바꾸면 ➡️ 서비스 자체가 폐기됨
+  - 굳이 건드릴 필요가 없다❗️
+<img src="img/24.jpeg" width="300px" /><br>
+<img src="img/25.jpeg" width="300px" /><br>
+- 중지 방지 변경 : 중지 방지 기능(활성화할 일이 거의 없음)
+
+### 터미널에서 서버 상태 보기
+- 서버 실행 후
+~~~zsh
+# 고전적 서버 상태 보기
+top
+# 요즘 서버 상태 보기
+# GUI 버전이라서 클릭도 됨
+htop
+# 종료 : q, f10
+
+# cpu 정보 보기
+cat /proc/cpuinfo
+# processor	: 0 ➡️ CPU 하나일 때
+~~~
+- htop 실행된 화면<br>
+<img src="img/26.jpeg" width="300px" /><br>
+
+
+### scale-up❗️ & scale-down
+- aws 인스턴스 상태에서 인스턴스 중지 ➡️ 좀 기다리면 인스턴스 상태 : 중지됨 확인 가능 ➡️ 인스턴스 유형 변경 활성화 됨<br>
+<img src="img/31.jpeg" width="300px" /><br>
+<img src="img/27.jpeg" width="300px" /><br>
+<img src="img/28.jpeg" width="300px" /><br>
+- t2 medium으로 변경 후 : htop 명령어를 통해 CPU 2개에 메모리 4기가 된 것 확인 가능<br>
+<img src="img/29.jpeg" width="300px" /><br>
+- t3a small로 변경 후 : cat /proc/cpuinfo를 통해 AMD 확인<br>
+<img src="img/30.jpeg" width="300px" /><br>
