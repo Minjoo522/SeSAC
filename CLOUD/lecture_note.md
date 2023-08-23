@@ -366,6 +366,7 @@ curl localhost
 ~~~
 <img src="img/59.jpeg" width="700px" /><br>
 <img src="img/60.jpeg" width="700px" /><br>
+- 소스 : Anywhere IPv4<br>
 <img src="img/55.jpeg" width="700px" /><br>
 
 ### 기타 vscode 터미널에서 설치
@@ -397,6 +398,7 @@ curl localhost:5000
 ~~~
 
 ### flask 실행을 위해 보안 인바운드 규칙 추가
+- 소스 : Anywhere IPv4<br>
 <img src="img/56.jpeg" width="700px" /><br>
 
 ~~~python
