@@ -156,45 +156,44 @@ sudo lastb
 
 ## EC2
 ### 인스턴스 생성
-<img src="img/1.jpeg" width="500px" />
-<img src="img/2.jpeg" width="500px" />
-<img src="img/3.jpeg" width="500px" /><br>
+<img src="img/1.jpeg" width="700px" />
+<img src="img/2.jpeg" width="700px" />
+<img src="img/3.jpeg" width="700px" /><br>
 - 리눅스보다 윈도우가 비싸고 보편적으로 우분투 많이 씀
 - 우분투 22.04가 기본 값 / 우리 수업에서는 20.04를 쓸 것임<br>
-<img src="img/4.jpeg" width="500px" /><br>
+<img src="img/4.jpeg" width="700px" /><br>
 - 이론적으로는 서버마다 하나의 key를 쓰는게 좋지만 업무상 나의 PC 당 하나의 key를 쓰는 게 더 좋다
 - 개인키 카톡방 공유 : 잘못된 것 ➡️ 계정 따로따로 관리(리눅스 수업 때 배울 예정)
 - 이 key가 탈취 도난 방지하기 위한 방안이 없으면 ssh같은 접속해주는 소프트웨어들이 싫어한다(신뢰 할 수 없다고 하기도 함)
   - 안전한 공간 : 윈도우 ➡️ c:\users\(맥북도 리눅스도 다른 사용자가 접근 못하도록 권한 설정 할 수 있음)<br>
-<img src="img/5.jpeg" width="500px" />
-<img src="img/6.jpeg" width="500px" /><br>
+<img src="img/5.jpeg" width="700px" />
+<img src="img/6.jpeg" width="700px" /><br>
 - 원래 VPC, AZ, Subnet, Route, IGW 등 직접 설정해야하지만 default 설정 있음 ➡️ 우리 수업 땐 default로 쓸 것임<br>
-<img src="img/7.jpeg" width="500px" />
+<img src="img/7.jpeg" width="700px" />
 
 ### (새 창!)보안 그룹 생성
 - 보안 그룹 만들기 ➡️ **새 창**에서!<br>
-<img src="img/10.jpeg" width="500px" />
-<img src="img/11.jpeg" width="500px" />
-<img src="img/8.jpeg" width="500px" /><br>
+<img src="img/10.jpeg" width="700px" />
+<img src="img/11.jpeg" width="700px" />
+<img src="img/8.jpeg" width="700px" /><br>
 - 인바운드 규칙 : 소스 유형 ➡️ 보안적으로는 내 IP가 좋다
   - 우리 수업 땐 학습적인 목적으로 Anywhere-IPv4
   - 설명은 써두는 것이 좋은 습관!(뭔지 나중에 알기 편하게 하려고)<br>
-<img src="img/9.jpeg" width="500px" /><br>
+<img src="img/9.jpeg" width="700px" /><br>
 - 아웃바운드는 나가는 것은 다 허용해주는 것이 기본 값 ➡️ 웬만하면 손대지 않는 것이 좋음<br>
-<img src="img/12.jpeg" width="500px" /><br>
+<img src="img/12.jpeg" width="700px" /><br>
 - 태그 : 안 넣어도 되지만 넣는 것이 좋은 습관!<br>
-<img src="img/13.jpeg" width="500px" /><br>
+<img src="img/13.jpeg" width="700px" /><br>
 
 ### 다시 인스턴스 생성 창으로 돌아와서
-<img src="img/13.jpeg" width="500px" />
-<img src="img/14.jpeg" width="500px" /><br>
+<img src="img/14.jpeg" width="700px" /><br>
 - 스토리지 : 지금은 기본값(8GB) 그대로 사용할 것임<br>
-<img src="img/15.jpeg" width="500px" /><br>
+<img src="img/15.jpeg" width="700px" /><br>
 - 인스턴스 시작 버튼 클릭하면 생성 완료!<br>
-<img src="img/16.jpeg" width="500px" /><br>
+<img src="img/16.jpeg" width="700px" /><br>
 
 ### 인스턴스 정보 확인 창
-<img src="img/17.jpeg" width="500px" /><br>
+<img src="img/17.jpeg" width="700px" /><br>
 
 - 아이디
   - 우분투 : ubuntu
@@ -208,23 +207,23 @@ ssh -i mjkim-key.pem ubuntu@3.92.243.189
 
 ### 웹 콘솔
   - 웹 콘솔로 들어갈 수도 있는데 우리 수업에서는 권한 설정 안하셨음<br>
-<img src="img/19.jpeg" width="500px" /><br>
-<img src="img/18.jpeg" width="500px" /><br>
+<img src="img/19.jpeg" width="700px" /><br>
+<img src="img/18.jpeg" width="700px" /><br>
 
 - 인스턴스 유형 확인<br>
-<img src="img/20.jpeg" width="500px" /><br>
+<img src="img/20.jpeg" width="700px" /><br>
 
 ### 서버 관리
 - 껐다 킬 때마다 IP 주소가 달라짐
 - 인스턴스 종료 : 폐기❗️❗️❗️ 중지와 다름❗️❗️❗️ ➡️ 종료방지기능 활성화<br>
-<img src="img/21.jpeg" width="500px" /><br>
-<img src="img/22.jpeg" width="500px" /><br>
-<img src="img/23.jpeg" width="500px" /><br>
+<img src="img/21.jpeg" width="700px" /><br>
+<img src="img/22.jpeg" width="700px" /><br>
+<img src="img/23.jpeg" width="700px" /><br>
 
 - 종료 동작 변경 : 운영체제가 종료될 때의 행동을 정함 ➡️ OS 종료할 때 ➡️ 중지 // 종료로 바꾸면 ➡️ 서비스 자체가 폐기됨
   - 굳이 건드릴 필요가 없다❗️
-<img src="img/24.jpeg" width="500px" /><br>
-<img src="img/25.jpeg" width="500px" /><br>
+<img src="img/24.jpeg" width="700px" /><br>
+<img src="img/25.jpeg" width="700px" /><br>
 - 중지 방지 변경 : 중지 방지 기능(활성화할 일이 거의 없음)
 
 ### 터미널에서 서버 상태 보기
@@ -242,15 +241,15 @@ cat /proc/cpuinfo
 # processor	: 0 ➡️ CPU 하나일 때
 ~~~
 - htop 실행된 화면<br>
-<img src="img/26.jpeg" width="500px" /><br>
+<img src="img/26.jpeg" width="700px" /><br>
 
 
 ### scale-up❗️ & scale-down
 - aws 인스턴스 상태에서 인스턴스 중지 ➡️ 좀 기다리면 인스턴스 상태 : 중지됨 확인 가능 ➡️ 인스턴스 유형 변경 활성화 됨<br>
-<img src="img/31.jpeg" width="500px" /><br>
-<img src="img/27.jpeg" width="500px" /><br>
-<img src="img/28.jpeg" width="500px" /><br>
+<img src="img/31.jpeg" width="700px" /><br>
+<img src="img/27.jpeg" width="700px" /><br>
+<img src="img/28.jpeg" width="700px" /><br>
 - t2 medium으로 변경 후 : htop 명령어를 통해 CPU 2개에 메모리 4기가 된 것 확인 가능<br>
-<img src="img/29.jpeg" width="500px" /><br>
+<img src="img/29.jpeg" width="700px" /><br>
 - t3a small로 변경 후 : cat /proc/cpuinfo를 통해 AMD 확인<br>
-<img src="img/30.jpeg" width="500px" /><br>
+<img src="img/30.jpeg" width="700px" /><br>
