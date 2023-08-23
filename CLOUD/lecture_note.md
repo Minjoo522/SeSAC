@@ -221,7 +221,7 @@ ssh -i mjkim-key.pem ubuntu@3.92.243.189
 <img src="img/23.jpeg" width="700px" /><br>
 
 - 종료 동작 변경 : 운영체제가 종료될 때의 행동을 정함 ➡️ OS 종료할 때 ➡️ 중지 // 종료로 바꾸면 ➡️ 서비스 자체가 폐기됨
-  - 굳이 건드릴 필요가 없다❗️
+  - 굳이 건드릴 필요가 없다❗️<br>
 <img src="img/24.jpeg" width="700px" /><br>
 <img src="img/25.jpeg" width="700px" /><br>
 - 중지 방지 변경 : 중지 방지 기능(활성화할 일이 거의 없음)
@@ -253,3 +253,160 @@ cat /proc/cpuinfo
 <img src="img/29.jpeg" width="700px" /><br>
 - t3a small로 변경 후 : cat /proc/cpuinfo를 통해 AMD 확인<br>
 <img src="img/30.jpeg" width="700px" /><br>
+
+### VS-CODE
+- 연결까지는 이전과 동일
+- 폴더 열기 ➡️ /home/ubuntu/ ➡️ 확인<br>
+<img src="img/32.jpeg" width="700px" /><br>
+- 새 폴더 만들어 줌<br>
+- 다시 폴더 열기 ➡️ /home/ubuntu/SESAC(새로 만든 폴더)<br>
+<img src="img/33.jpeg" width="700px" /><br>
+- drag & drop으로 파일 복사 붙여넣기 가능<br>
+<img src="img/34.jpeg" width="700px" /><br>
+<img src="img/35.jpeg" width="700px" /><br>
+- 서버 끄기
+<img src="img/58.jpeg" width="700px" /><br>
+
+
+
+### 용량 증설 - 물리적 용량 증설
+
+~~~zsh
+# 용량 얼마나 남았는지 확인
+df
+# human readable version
+df -h
+~~~
+<img src="img/36.jpeg" width="700px" /><br>
+
+- EBS(Elastic Block Store)
+- disk는 power off를 할 필요가 없다❗️(hot-swap 형태 디바이스들처럼)
+- 한 번 키우면 줄이기 어렵다
+  - fragnation 때문에
+  - de-fragnation 할 수 있지만 복잡하고 번거롭다
+  - 결론 : 그래서 안함❗️<br>
+<img src="img/37.jpeg" width="700px" /><br>
+- 볼륨 탭에서 검색해서 내 인스턴스 이름으로 찾을 수도 있고 ⬆️<br>
+- 인스턴스 탭 ➡️ 스토리지에서 찾을 수도 있음⬇️<br>
+<img src="img/38.jpeg" width="700px" /><br>
+<img src="img/39.jpeg" width="700px" /><br>
+<img src="img/40.jpeg" width="700px" /><br>
+<img src="img/41.jpeg" width="700px" /><br>
+<img src="img/44.jpeg" width="700px" /><br>
+- 웹에서 증설 된 것 확인<br>
+<img src="img/45.jpeg" width="700px" /><br>
+
+### 용량 증설 - 논리적 용량 증설
+- [논리적으로 분할](https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/recognize-expanded-volume-linux.html)
+  - sudo 명령어를 통해(superuser do)
+~~~zsh
+sudo fdisk -l
+
+# Disk /dev/nvme0n1 : 물리적인 위치
+# 아래는 파티션
+Device           Start      End  Sectors  Size Type
+# 데이터
+/dev/nvme0n1p1  227328 16777182 16549855  7.9G Linux filesystem
+# 부트로더
+/dev/nvme0n1p14   2048    10239     8192    4M BIOS boot
+# 부팅관련
+/dev/nvme0n1p15  10240   227327   217088  106M EFI System
+
+# sudo growpart <디스크> <파티션>
+sudo growpart /dev/nvme0n1 1
+# 결과 :
+CHANGED: partition=1 start=227328 old: size=16549855 end=16777183 new: size=31229919 end=31457247
+
+# sudo resize2fs <디스크파티션>
+sudo resize2fs /dev/nvme0n1p1
+~~~
+
+- 루트에는 OS 및 관련 SW만 설치
+- 개발시에는 별도의 하드 디스크를 따로 만들어서 관리하는 것이 좋다(데이터가 변동이 크기 때문에)
+
+### 추가 볼륨 생성
+- 볼륨 ➡️ 우측 상단 노란색 볼륨 생성 버튼 클릭하면 아래와 같은 화면 나옴<br>
+<img src="img/46.jpeg" width="700px" /><br>
+- 가용영역 : 데이터 센터
+  - 우리의 서버와 같은 곳에 만들어야 함
+  - 인스턴스에서 아래와 같이 확인 가능<br>
+<img src="img/47.jpeg" width="700px" /><br>
+- 태그 쓰는 건 선택 사항이지만 습관들여 놓으면 좋다!<br>
+<img src="img/48.jpeg" width="700px" /><br>
+- 생성하고 만들어진 것 확인 후 이름 바꿔주기<br>
+<img src="img/49.jpeg" width="700px" /><br>
+- 이제 우리 서버와 연결해야 함!
+<img src="img/50.jpeg" width="700px" /><br>
+<img src="img/51.jpeg" width="700px" /><br>
+- 연결 잘 되면 터미널에서 sudo fdisk -l 명령어로 만들어진 것 확인 가능<br>
+<img src="img/52.jpeg" width="700px" /><br>
+- df -h 명령어로도 확인 가능<br>
+<img src="img/54.jpeg" width="700px" /><br>
+
+### 추가 볼륨 생성 - vscode 터미널에서 설정해줄 것!
+- 파티션(선택) / 포멧(필수)
+- 포멧❗️
+~~~zsh
+sudo mkfs -t ext4 /dev/nvme1n1
+~~~
+- home/ubuntu는 나의 공간 / 나머지는 나의 권한이 없는 곳 ➡️ 그래서 sudo 명령어 사용해야 함
+~~~zsh
+sudo mkdir /data
+sudo mount /dev/nvme1n1 /data
+~~~
+
+### 웹서버 설치
+~~~zsh
+sudo apt update
+sudo apt install nginx -y
+curl localhost
+# welcome to nginx!가 뜨면 잘 깔린 것
+# 이것만하면 공인 ip 주소로 들어가도 안뜸
+# 인바운드 규칙 편집!
+~~~
+<img src="img/59.jpeg" width="700px" /><br>
+<img src="img/60.jpeg" width="700px" /><br>
+<img src="img/55.jpeg" width="700px" /><br>
+
+### 기타 vscode 터미널에서 설치
+~~~zsh
+# 파이썬 설치 되어 있음
+# pip
+sudo apt install python3-pip
+
+# 파이썬 가상환경(아나콘다 같은 작은 것)
+sudo apt install python3.8-venv
+
+# 실제로 내가 원하는 가상환경 생성
+# python3 -m venv <가상환경폴더><가상환경이름>
+python3 -m venv ~/.venv/flask
+
+# 가상환경 활성화
+source ~/.venv/flask/bin/activate
+# 비활성화
+deactivate
+
+# 가상환경 안에서 flask 설치 및 필요한 라이브러리 등 설치
+pip install flask
+
+# vscode 터미널 + 버튼 눌러서 새 터미널 창
+# 잘 되는지 확인
+curl localhost:5000
+
+# 그래도 바로 되진 않음
+~~~
+
+### flask 실행을 위해 보안 인바운드 규칙 추가
+<img src="img/56.jpeg" width="700px" /><br>
+
+~~~python
+# host 바꿔주기
+if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
+    app.run(host="0.0.0.0")
+~~~
+- 이렇게 설정 완료하면 url : 공인ip:5000에서 실행 가능함
+
+## 클라우드에서 하는 모든 작업은 보안을 신경쓸 것!
+<img src="img/57.jpeg" width="700px" /><br>
