@@ -22,6 +22,7 @@
 
 ## linux 명령어
 ### 성공한 것은 결과를 주지 않음
+- cd /etc : 에는 모든 설정파일이 있다
 - ls(list) : 파일 보기
 - ls -l(long) : 파일 상세 정보까지 보기
 - ls -a(all) : 숨김파일(hidden)까지 봄(.으로 출발하는 파일이나 폴더)
@@ -61,6 +62,58 @@ ubuntu@ip-172-31-42-74:~$  file /usr/bin/file
 - man ls : ls에 대한 매뉴얼 보기
 - which : 실행하고자 하는 프로그램이 어디에 설치되어 있는지, 실행되어 있는지 경로 확인
 - whereis : 어디에 있는지 다 보여줌!
+- 파이프(|) : 출력값 프로세스 간 연결
+~~~zsh
+ls -l | grep "hello"
+# 결과 : hello만 강조되어 나옴!
+-rw-rw-r-- 1 ubuntu ubuntu  288 Aug 24 14:31 hello.txt
+-rw-rw-r-- 1 ubuntu ubuntu   55 Aug 24 12:13 hello2.txt
+lrwxrwxrwx 1 ubuntu ubuntu    9 Aug 24 12:16 hellosym -> hello.txt
+~~~
+- history : 지금까지 친 명령어 보기
+  - 느낌표 다음 줄 번호 치면 명령어 다시 실행 됨!
+  - !! : 가장 최근에 실행한 명령어 다시 실행 됨!
+~~~zsh
+!128
+!!
+~~~
+- alias : 기본적으로 있는 shortcut 기능들이 나옴
+~~~zsh
+# 새로운 alias 만들기
+alias ..="cd .."
+~~~
+  - 껐다 키면 다시 없어짐
+  - 부팅할 때 자동으로 실행해주는 명령어 : .bashrc
+~~~zsh
+touch .bash_aliases
+echo 'alias ..="cd .."' > .bash_aliases
+echo 'alias ...="cd ../.."' >> .bash_aliases
+~~~
+- find : 원하는 것을 찾는 기능
+~~~zsh
+# 현재 디렉토리에서 이름이 hello로 시작하는 모든 것
+find . -name "hello*"
+~~~
+- 화면에 출력에 대한 "형태"
+  - 0 stdin
+  - 1 stdout
+  - 2 stderr
+~~~zsh
+find / -name "hello*" 2> hello.txt
+find / -name "hello*" > hello.stdout.txt 2> hello.stderr.txt
+
+# 사이즈가 100M인 것 찾기
+find / -size 100M
+# 사이즈가 100M보다 큰거 찾기
+find / -size +100M
+~~~
+- /dev/null : 휴지통
+~~~zsh
+find / -name "hello*" 2> /dev/null
+~~~
+- du : 디렉토리의 용량 확인
+  - du -h : human readable
+  - du -h --max-depth=1
 
 ### 짱 중요
 - ln : 링크(하드 링크)
@@ -73,6 +126,28 @@ ln -s hello.txt hellosym
 sudo rm /etc/localtime
 sudo ln -s /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 ~~~
+
+### 쉘 스크립트
+~~~zsh
+touch test1.sh
+~~~
+- vscode에서 연결해서 할 수 있음
+~~~sh
+#!/bin/bash ⬅️ 나의 파일이 어떤 건지 알려줌 #! : shabang
+
+ls ➡️ 이 스크립트가 실행되면 ls가 실행됨
+
+# 이런식으로 실행해야 할 것들 미리 정의
+# 새로운 EC2 만들었을 때 편하게 설치 가능
+sudo apt update
+sudo apt install python3-dev -y
+sudo apt install python3.8-venv -y
+sudo apt install python3-pip -y
+# python3 -mvenv ~/.venv/flask
+# source ~/.venv/flask/bin/activate
+# pip install flask
+~~~
+- if문 for문 등등 다양한 기능이 있음
 
 # VIM
 - 1976 빌조이가 vi를 만듦(텍스트 에디터)
@@ -170,3 +245,149 @@ sudo ln -s /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 - ctrl + v : 블럭 단위 셀렉 가능
 
 ### vimtutor로 연습 가능!
+
+## 패키지 관리자 - apt(Advanced Package Tool)
+- apt 저장소를 카카오 미러 서버로 설정하는 것도 가능하다(우분투 카카오 미러서버)
+- apt update : 리포지토리 내용 가져오기
+- apt list : 리포지토리 패키지 목록 출력(로컬 캐쉬)
+- apt list --installed : 설치된 패키지 목록 출력
+- apt list --upgradeable : 업그레이드(업데이트) 가능한 목록 출력
+- apt search : 리포지토리 검색(로컬 캐쉬)
+~~~zsh
+apt search nginx
+~~~
+- apt show : 패키지 정보 표시
+- apt install : 리포지토리 내의 패키지 설치 ↔️ apt purge
+~~~zsh
+# 뒤에 -y 붙이면 묻지말고 yes
+sudo apt install nginx -y
+~~~
+- apt remove : 설치된 패키지 삭제(설정파일 유지)
+- apt purge : 설치된 패키지 삭제 + 설정파일 삭제
+- apt autoremove : 더 이상 사용되지 않는패키지 삭제(업그레이드 이후 dependency 또한 업그레이드 되어 더이상 참조되지 않는 패키지)
+- apt upgrade : 패키지 업그레이드(업데이트)
+- apt full-upgrade : 패키지 업그레이드 과정에서 삭제가 필요하다면 그 또한 수행하며 업그레이드(업데이트) - 잘 사용되지
+
+## 🚨 웹서버 확인 및 관리 - 중요❗️
+- systemctl status nginx : 상태 확인
+- sudo systemctl stop nginx : 끄기 ➡️ 껐더라도 재부팅하면 다시 뜸
+  - 데몬 서비스 : 백그라운드에서 구동되면서 요청을 받아서 처리하는 것 ➡️ enabled면 껐다 켜도 자동으로 실행됨
+  - sudo systemctl disable nginx : enabled ➡️ disable
+- sudo systemctl start nginx : 시작하기
+
+### 아래 네 차이를 인지하고 있어야 함!
+- enable / stop
+- enable / start (active / running)
+- disable / stop (inactive)
+- disable / start (active / running)
+
+## 🚨 웹 서버를 통해 우리의 웹 서비스를 구동
+- 웹 서버를 만들기 위한 후보군 : sites-available : 실제 데이터가 있음
+- 실제 서비스를 on/off : sites-enabled : 심볼이 있음(sites-available에 있는 애들을 가리킴 / 여기다가 파일 만들면 동작은 하지만 원작자의 철학을 무시하는 것 💩)
+~~~zsh
+listen 80 default_server;
+root /var/www/html;
+# /etc/nginx/site-available의 default 파일에서 아래 내용 확인 가능!
+# index.html이 있으면 이거 아니면 index.htm 이것도 없으면 index.nginx-debian.html
+index index.html index.htm index.nginx-debian.html;
+
+# sudo만 쓰면 echo "hello" 까지만 권한이 허용되기 때문에, 아래꺼 실행 안됨!
+ubuntu@ip-172-31-42-74:/var/www/html$ sudo echo "hello" > index.html
+# sudo 권한으로 새로운 shell을 열어서 실행!
+sudo sh -c 'echo "hello" > index.html'
+~~~
+
+### sudo chmod -R o+w . : 보안을 매우 취약하게 만듦
+~~~zsh
+# 폴더 위치는 /etc/nginx
+ubuntu@ip-172-31-42-74:/etc/nginx$ sudo chmod -R o+w .
+
+ubuntu@ip-172-31-42-74:/etc/nginx/sites-available$ code default
+ubuntu@ip-172-31-42-74:/etc/nginx/sites-available$ cd ..
+ubuntu@ip-172-31-42-74:/etc/nginx$ cd sites-enabled/
+ubuntu@ip-172-31-42-74:/etc/nginx/sites-enabled$ ln -s /etc/nginx/sites-available/sesac 
+ubuntu@ip-172-31-42-74:/etc/nginx/sites-enabled$ ls -l
+total 0
+lrwxrwxrwx 1 root   root   34 Aug 23 15:13 default -> /etc/nginx/sites-available/default
+lrwxrwxrwx 1 ubuntu ubuntu 32 Aug 24 15:47 sesac -> /etc/nginx/sites-available/sesac
+# nginx가 두 개의 사이트를 운영 가능하게 됨
+
+# 위와 같이 바꾼걸로 인해서 실패 됨
+ubuntu@ip-172-31-42-74:/etc/nginx/sites-enabled$ sudo systemctl restart nginx
+Job for nginx.service failed because the control process exited with error code.
+See "systemctl status nginx.service" and "journalctl -xe" for details.
+
+ubuntu@ip-172-31-42-74:/etc/nginx/sites-enabled$ systemctl status nginx.service
+● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
+     Active: failed (Result: exit-code) since Thu 2023-08-24 15:48:05 KST; 40s ago
+       Docs: man:nginx(8)
+    Process: 2870 ExecStartPre=/usr/sbin/nginx -t -q -g daemon on; master_process on; (code=exited, status=1/FAILURE)
+
+Aug 24 15:48:05 ip-172-31-42-74 systemd[1]: Starting A high performance web server and a reverse proxy server...
+Aug 24 15:48:05 ip-172-31-42-74 nginx[2870]: nginx: [emerg] a duplicate default server for 0.0.0.0:80 in /etc/nginx/sites-enabled/sesac:22
+Aug 24 15:48:05 ip-172-31-42-74 nginx[2870]: nginx: configuration file /etc/nginx/nginx.conf test failed
+Aug 24 15:48:05 ip-172-31-42-74 systemd[1]: nginx.service: Control process exited, code=exited, status=1/FAILURE
+Aug 24 15:48:05 ip-172-31-42-74 systemd[1]: nginx.service: Failed with result 'exit-code'.
+lines 1-11...skipping...
+● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
+     Active: failed (Result: exit-code) since Thu 2023-08-24 15:48:05 KST; 40s ago
+       Docs: man:nginx(8)
+    Process: 2870 ExecStartPre=/usr/sbin/nginx -t -q -g daemon on; master_process on; (code=exited, status=1/FAILURE)
+
+Aug 24 15:48:05 ip-172-31-42-74 systemd[1]: Starting A high performance web server and a reverse proxy server...
+# 🚨 80번 port가 duplicate!
+Aug 24 15:48:05 ip-172-31-42-74 nginx[2870]: nginx: [emerg] a duplicate default server for 0.0.0.0:80 in /etc/nginx/sites-enabled/sesac:22
+Aug 24 15:48:05 ip-172-31-42-74 nginx[2870]: nginx: configuration file /etc/nginx/nginx.conf test failed
+Aug 24 15:48:05 ip-172-31-42-74 systemd[1]: nginx.service: Control process exited, code=exited, status=1/FAILURE
+Aug 24 15:48:05 ip-172-31-42-74 systemd[1]: nginx.service: Failed with result 'exit-code'.
+Aug 24 15:48:05 ip-172-31-42-74 systemd[1]: Failed to start A high performance web server and a reverse proxy server.
+~~~
+
+~~~sh
+# sesac의 default 파일에서 server 88로 바꿔줌
+server {
+	listen 88 default_server;
+
+	root /var/www/html;
+
+	index index.html index.htm index.nginx-debian.html;
+
+	location / {
+	}
+}
+~~~
+
+~~~zsh
+# 수정한 파일에 오류가 없는지 미리 확인
+sudo nginx -t
+
+# 재시작
+sudo systemctl restart nginx
+~~~
+
+~~~sh
+# 새싹 폴더에선 다른 파일 띄울거니까 root 변경
+# 클라우드는 보안 허용 해주어야 함!
+server {
+	listen 88 default_server;
+
+	root /var/www/html/sesac;
+
+	index index.html index.htm index.nginx-debian.html;
+
+	location / {
+	}
+}
+~~~
+
+~~~zsh
+ubuntu@ip-172-31-42-74:/etc/nginx/sites-enabled$ cd /var/www/html
+ubuntu@ip-172-31-42-74:/var/www/html$ sudo chmod -R o+w .
+ubuntu@ip-172-31-42-74:/var/www/html$ mkdir sesac
+ubuntu@ip-172-31-42-74:/var/www/html$ cd sesac
+ubuntu@ip-172-31-42-74:/var/www/html/sesac$ code index.html
+# html 수정해주고
+ubuntu@ip-172-31-42-74:/var/www/html/sesac$ sudo systemctl restart nginx
+~~~
