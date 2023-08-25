@@ -22,12 +22,25 @@
 
 ## linux 명령어
 ### 성공한 것은 결과를 주지 않음
+- cd(change directory) : 현재 경로 변경
+- cd - : 바로 이전 위치로 돌아가기
+- . : current directory
+- .. : parent directory
+- ~ : home directory
+- / : 루트
 - cd /etc : 에는 모든 설정파일이 있다
+
+<br>
+
 - ls(list) : 파일 보기
 - ls -l(long) : 파일 상세 정보까지 보기
 - ls -a(all) : 숨김파일(hidden)까지 봄(.으로 출발하는 파일이나 폴더)
 - ls -a -l / ls -al / ls -la 등처럼 사용도 가능
-- touch <파일> : 파일 만들기(원래 목적은 파일 지금 내가 수정했다고 설정) / touch hello.txt
+- open . : 현재 경로를 파일 탐색기에서 열기
+
+<br>
+
+- touch <파일> : 파일 만들기(원래 목적은 파일 지금 내가 수정했다고 설정) / 파일이 없으면 파일을 만들고 있으면 수정한 날짜를 지금 날짜로 설정 / touch hello.txt
 - cat <파일> : concatenate(연결) / 파일 내용 보기 / 파일과 터미널을 연결해준다
 - more <파일> : 페이징 처리 되어 파일 내용 보임 / 스페이스바로 페이지 이동 가능
 - less <파일> : 좌우 위 아래 이동 가능
@@ -35,17 +48,21 @@
   - rm hello* 같은 식으로도 지울 수 있음
 - rm -r : 반복적으로 편하게 지움 / 복구 불가 / 사용시 주의❗️
 - mkdir <폴더> : make directory / 폴더 만들기
+- mkdir -p <폴더>/<폴더>/<폴더> : 폴더 안의 폴더안의 폴더 만들 수 있음
+~~~zsh
+mkdir -p dir4/subdir1/subdir2
+~~~
+
 - rmdir <폴더> : remove directory / 폴더 지우기
-- . : current directory
-- .. : parent directory
-- pwd : 현재 나의 working directory(나의 위치)
+- pwd(Print Working Directory) : 현재 나의 working directory(나의 위치)
 - $ : 프롬푸트(사용자의 입력을 나타내는 기호), 프롬푸트를 잘 설정하면 사용자 / 호스트 / 디렉토리 $ 처럼 보이게 만들 수도 있음
   - PS1 = prompt statement one
-- ~ : 나의 홈
-- / : 루트
 - ll : ls -l을 alias로 만들어 둔 것(OS 배포판마다 차이가 큼 ➡️ 이거는 우분투에만 기본적으로 있음)
-- cd - : 바로 이전 위치로 돌아가기
 - cp <출발지> <목적지> : copy / 파일 복사 / 있는 파일에 복사하는 경우 over write됨 / 파일 ➡️ 폴더 : 폴더 안으로 파일이 복사됨
+~~~zsh
+cp file1.txt dir1/
+~~~
+
 - cp -r : 폴더도 복사 가능
 - echo : 화면에 글자를 출력하는 명령어
   - echo "hello" > hello.txt : redirection 기능을 통해서 hello.txt 파일에 결과를 보내줌
@@ -60,6 +77,9 @@ ubuntu@ip-172-31-42-74:~$  file /usr/bin/file
 - shutdown : 끄기 / 관리자만 가능 ➡️ sudo shutdown 
   - sudo shutdown -h now : 이 때 동작을 어떻게 할 것인가가 웹에서의 종료 동작 변경❗️ ➡️ 중지 / 다시 킬 때 ip 주소 변경됨
 - man ls : ls에 대한 매뉴얼 보기
+
+<br>
+
 - which : 실행하고자 하는 프로그램이 어디에 설치되어 있는지, 실행되어 있는지 경로 확인
 - whereis : 어디에 있는지 다 보여줌!
 - 파이프(|) : 출력값 프로세스 간 연결
@@ -70,6 +90,20 @@ ls -l | grep "hello"
 -rw-rw-r-- 1 ubuntu ubuntu   55 Aug 24 12:13 hello2.txt
 lrwxrwxrwx 1 ubuntu ubuntu    9 Aug 24 12:16 hellosym -> hello.txt
 ~~~
+
+- grep(Global Regular Expression Print) : 키워드로 검색
+~~~zsh
+# 모든 txt 파일에 대해서 world 검색
+grep "world" *.txt
+# -n : 몇 번째 줄에 있는지 확인
+grep -n "world" *.txt
+# -i : 대소문자 상관 없이 검색
+grep -ni "world" *.txt
+# -r : recursive
+# 현재 경로와 하위 폴더에서 모두 검색
+grep -nir "world" .
+~~~ 
+
 - history : 지금까지 친 명령어 보기
   - 느낌표 다음 줄 번호 치면 명령어 다시 실행 됨!
   - !! : 가장 최근에 실행한 명령어 다시 실행 됨!
@@ -93,6 +127,9 @@ echo 'alias ...="cd ../.."' >> .bash_aliases
 ~~~zsh
 # 현재 디렉토리에서 이름이 hello로 시작하는 모든 것
 find . -name "hello*"
+find . -type file -name "*.txt"
+find . -type file -name "*.json"
+find . -type directory -name "*2"
 ~~~
 - 화면에 출력에 대한 "형태"
   - 0 stdin
@@ -114,6 +151,17 @@ find / -name "hello*" 2> /dev/null
 - du : 디렉토리의 용량 확인
   - du -h : human readable
   - du -h --max-depth=1
+
+### 환경 변수 설정
+- export
+~~~zsh
+export MY_DIR="dir1"
+
+# 이제 아래처럼 이용 가능 - $환경변수
+cd $MY_DIR
+~~~
+- env : 설정된 모든 환경 변수 보기
+- unset <환경변수> : 설정된 환경 변수 지우기
 
 ### 짱 중요
 - ln : 링크(하드 링크)
@@ -160,7 +208,6 @@ sudo apt install python3-pip -y
 
 - 명령모드 : 처음 / esc
 
-
 - h,j,k,l : 왼 하 상 우
 
 
@@ -184,9 +231,9 @@ sudo apt install python3-pip -y
 
 - gg : 파일 앞
 - G : 파일 끝
-
-
 - 20G : 20번째 줄로 이동
+
+
 - x : 커서 아래 글자 삭제
 - dd: 문장 삭제
 - yy : 문장 복사
@@ -195,49 +242,67 @@ sudo apt install python3-pip -y
 
 
 - 입력모드 : i / 
-- i: insert (커서 앞)
-- a: append (커서 뒤)
+- i : insert (커서 앞)
+- a : append (커서 뒤)
 - I : 문장 시작
-- A: 문장 끝
+- A : 문장 끝
 
 
 ### 종료 옵션
 - :q 그냥 종료
 - :q! 강제 종료
-- :w 저장
+- :w 저장(write changes)
 - :w! 강제 저장
 - :wq 저장하고 종료
 - :wq! 강제 저장하고 종료
 
 
 ### command + object
-- 명령 + 무엇에게
-- d 3w : delete 3 words
-- d it : 근접한 태그 안에 있는 모든 데이터를 삭제해라
+#### 명령 + 무엇에게
+
+- d3w : delete 3 words
+- dit : 근접한 태그 안에 있는 모든 데이터를 삭제해라
+
+
 - d : delete(cut)
 - y : yank(copy)
 - c : change
+
+
 - 3w
-- 3b
+- 3b : 앞에 있는 세 개의 단어
+
+
 - aw : a word
 - at : a tag
 - ap : a paragraph
 - as : a sentence
+
+
 - it : inner, inside tag
 - i” : “안에
 - ip : paragraph 안에
-- ⇒ 반복 가능
+
+
 - . : 이전 명령 반복
 - u : un-do, 되감기
 - ctrl r : re-do, 앞감기
+
+
+- daw : 한 단어 삭제
 - d2j : 아래 두 문장 삭제
-- di{ : 중괄호 안의 정보 다 삭제
-- da” : “까지 포함해서 삭제
-- ci” : “안 수정
-- d 잘라내고 p 붙여넣기 가능
+- di{ : 중괄호 안의 정보 다 삭제 / delete inside {
+- da” : “까지 **포함**해서 삭제
+
+
+- ci” : “안 수정 / change
+
+
 - df( : (까지 찾아서 모든 것 삭제
 - dt( : (제외하고 앞까지 삭제
 - d/(sh : (sh까지 삭제 / 하면 써치모드로 들어가서 원하는 내용 적으면 됨 vscode 왼쪽 하단에 보임 
+
+
 - / : 검색모드 진입
 - n : 검색 다음 단어
 - ? : 거꾸로
