@@ -1,6 +1,7 @@
 # SeSAC 수업에서 배운 내용을 커밋합니다. ✨
 
-- [8월 22일(화) ~ : 클라우드](https://github.com/Minjoo522/SeSAC/blob/main/CLOUD/lecture_note.md)
+- [8월 22일(화) ~ 8월 23일(수) : 클라우드](https://github.com/Minjoo522/SeSAC/blob/main/CLOUD/lecture_note.md)
+- [8월 24일(목) : 리눅스](https://github.com/Minjoo522/SeSAC/blob/main/LINUX/lecture_note.md)
 
 🩷 수업 기간 : 23년 6월 15일 ~ 23년 9월 15일
 
