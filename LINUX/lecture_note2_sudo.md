@@ -201,4 +201,257 @@ ubuntu@ip-172-31-42-74:~/dir1$ ls -al /var/log/auth.log
 -rw-r----- 1 syslog adm 84313 Aug 29 12:18 /var/log/auth.log
 ~~~
 
+~~~bash
+# 계정보기
+cat /etc/passwd
+# 아이디 / 패스워드 
+user2:x:1001:1001:,,,:/home/user2:/bin/bash
+
+# 그룹보기
+cat /etc/group
+# 그룹 / 사용자 목록
+adm:x:4:syslog,ubuntu
+ubuntu:x:1000:
+user2:x:1001:
+~~~
+
+- 새로운 그룹 만들기
+- addgroup
+- sudo를 통해서
+~~~bash
+# GID 1002번이라는 새로운 그룹이 만들어짐
+ubuntu@ip-172-31-42-74:~$ sudo addgroup developers
+Adding group `developers' (GID 1002) ...
+Done.
+~~~
+
+- 그룹에 유저 추가
+~~~bash
+# a : append
+# G : group
+sudo usermod -a -G developers ubuntu
+sudo usermod -aG developers user2
+
+developers:x:1002:ubuntu,user2
+
+
+
+total 20
+drwxr-xr-x 3 root   root   4096 Aug 24 15:55 .
+drwxr-xr-x 3 root   root   4096 Aug 23 15:13 ..
+-rw-r--rw- 1 root   root      6 Aug 24 15:35 index.html
+-rw-r--rw- 1 root   root    612 Aug 23 15:13 index.nginx-debian.html
+drwxrwxr-x 2 ubuntu ubuntu 4096 Aug 24 15:56 sesac
+ubuntu@ip-172-31-42-74:/var/www/html$ sudo chown -R root:developers .
+ubuntu@ip-172-31-42-74:/var/www/html$ ls -al
+total 20
+drwxr-xr-x 3 root developers 4096 Aug 24 15:55 .
+drwxr-xr-x 3 root root       4096 Aug 23 15:13 ..
+-rw-r--rw- 1 root developers    6 Aug 24 15:35 index.html
+-rw-r--rw- 1 root developers  612 Aug 23 15:13 index.nginx-debian.html
+drwxrwxr-x 2 root developers 4096 Aug 24 15:56 sesac
+ubuntu@ip-172-31-42-74:/var/www/html$ sudo chmod -R g+w .
+ubuntu@ip-172-31-42-74:/var/www/html$ ls -al
+total 20
+drwxrwxr-x 3 root developers 4096 Aug 24 15:55 .
+drwxr-xr-x 3 root root       4096 Aug 23 15:13 ..
+-rw-rw-rw- 1 root developers    6 Aug 24 15:35 index.html
+-rw-rw-rw- 1 root developers  612 Aug 23 15:13 index.nginx-debian.html
+drwxrwxr-x 2 root developers 4096 Aug 24 15:56 sesac
+~~~
+- 그룹 권하는 로그인하는 시점에 부여된다!
+~~~bash
+# 원래는 권한 부여받고 나서 나갔다 들어와야 권한 부여되지만 나가지 않고 바로 권한 부여 받는 방법
+# 권장하지 않음
+newgrp developers
+~~~
+
+- 권한 빼기
+- deluser <유저> <그룹>
+~~~bash
+ubuntu@ip-172-31-42-74:/var/www/html$ sudo deluser user2 developers
+Removing user `user2' from group `developers' ...
+Done.
+
+developers:x:1002:ubuntu
+~~~
+
 ## 파일 다루기 상급
+- 파일의 특수 실행 권한
+- setuid : 실행할 때 해당 사용자의 권한으로 실행
+  - 이 파일을 실행할 때 이 파일의 소유주로 실행을 하라
+  - sudo : 관리자의 권한으로 실행하는 것처럼
+~~~bash
+# 그래서 sudo 찾아서 보면 -rw✨s라고 되어있음
+ubuntu@ip-172-31-42-74:/var/www/html$ ls -al /usr/bin/sudo
+-rwsr-xr-x 1 root root 166056 Apr  4 20:56 /usr/bin/sudo
+# s : setuid(special permission 중에서)
+# s는 setuid와 실행권한이 둘다 있음
+# S는 setuid만 있고 실행권한은 없음
+
+ubuntu@ip-172-31-42-74:~$ which cat
+/usr/bin/cat
+ubuntu@ip-172-31-42-74:~$ cp /usr/bin/cat mycat
+ubuntu@ip-172-31-42-74:~$ ls -al
+-rwxr-xr-x 1 ubuntu ubuntu     43416 Aug 29 13:55 mycat
+ubuntu@ip-172-31-42-74:~$ ./mycat hello.txt
+hello
+hello2
+ubuntu@ip-172-31-42-74:~$ chmod u+s mycat
+ubuntu@ip-172-31-42-74:~$ ls -al
+-rwsr-xr-x 1 ubuntu ubuntu     43416 Aug 29 13:55 mycat
+~~~
+
+- setgid : 안에서 만들어지는 파일들은 그 사용자의 그룹 권한을 상속받게 되어있음
+  - 협업 공간을 만들 때 많이 쓰임
+  - 해당 폴더에 만들어지는 파일이 그룹 권한을 자동적으로 상속받는다
+~~~bash
+# 기존
+drwxrwxr-x 3 root   developers 4096 Aug 29 14:01 .
+# 권한 부여
+ubuntu@ip-172-31-42-74:/var/www/html$ sudo chmod g+s .
+ubuntu@ip-172-31-42-74:/var/www/html$ ls -al
+total 32
+drwxrwsr-x 3 root   developers 4096 Aug 29 14:01 .
+drwxr-xr-x 3 root   root       4096 Aug 23 15:13 ..
+-rw-rw-r-- 1 user2  developers    6 Aug 29 13:59 hello.html
+-rw-rw-r-- 1 ubuntu ubuntu        7 Aug 29 13:44 home.html
+-rw-rw-rw- 1 root   developers    6 Aug 24 15:35 index.html
+-rw-rw-rw- 1 root   developers  612 Aug 23 15:13 index.nginx-debian.html
+-rw-rw-r-- 1 user2  user2         7 Aug 29 13:45 myfile.html
+drwxrwxr-x 2 root   developers 4096 Aug 24 15:56 sesac
+ubuntu@ip-172-31-42-74:/var/www/html$ echo "user1 file" > user1.html
+ubuntu@ip-172-31-42-74:/var/www/html$ ls -al
+total 36
+drwxrwsr-x 3 root   developers 4096 Aug 29 14:02 .
+drwxr-xr-x 3 root   root       4096 Aug 23 15:13 ..
+-rw-rw-r-- 1 user2  developers    6 Aug 29 13:59 hello.html
+-rw-rw-r-- 1 ubuntu ubuntu        7 Aug 29 13:44 home.html
+-rw-rw-rw- 1 root   developers    6 Aug 24 15:35 index.html
+-rw-rw-rw- 1 root   developers  612 Aug 23 15:13 index.nginx-debian.html
+-rw-rw-r-- 1 user2  user2         7 Aug 29 13:45 myfile.html
+drwxrwxr-x 2 root   developers 4096 Aug 24 15:56 sesac
+-rw-rw-r-- 1 ubuntu developers   11 Aug 29 14:02 user1.html
+~~~
+- sitcky bit : 해당 디렉토리에 생성된 파일은 해당 사용자의 소유주로 지정
+
+- 계정 삭제
+~~~bash
+sudo deluser user3
+# 기본적으로 계정이 지워질 때 home 폴더가 같이 지워지지 않음
+
+ubuntu@ip-172-31-42-74:/home$ ls -al
+total 20
+drwxr-xr-x  5 root   root   4096 Aug 29 14:04 .
+drwxr-xr-x 20 root   root   4096 Aug 29 10:10 ..
+drwxr-xr-x  9 ubuntu ubuntu 4096 Aug 29 13:55 ubuntu
+drwxr-xr-x  3 user2  user2  4096 Aug 29 13:44 user2
+drwxr-xr-x  3 user3  user3  4096 Aug 29 14:06 user3
+
+# 새로운 user3를 만들면 파일이 매핑될 수 있음
+ubuntu@ip-172-31-42-74:/home$ sudo adduser suer3
+Adding user `suer3' ...
+Adding new group `suer3' (1005) ...
+Adding new user `suer3' (1003) with group `suer3' ...
+Creating home directory `/home/suer3' ...
+Copying files from `/etc/skel' ...
+New password:
+
+# 홈까지 지우기 ➡️ 필요한 정보가 전부 지워질 수 있으니 주의!
+sudo deluser user3 --remove-home
+ubuntu@ip-172-31-42-74:/home$ sudo deluser user3 --remove-home
+Looking for files to backup/remove ...
+Removing files ...
+Removing user `user3' ...
+Warning: group `user3' has no more members.
+Done.
+
+ubuntu@ip-172-31-42-74:/home$ ls -al
+total 20
+drwxr-xr-x  5 root   root   4096 Aug 29 14:08 .
+drwxr-xr-x 20 root   root   4096 Aug 29 10:10 ..
+drwxr-xr-x  2 suer3  suer3  4096 Aug 29 14:07 suer3
+drwxr-xr-x  9 ubuntu ubuntu 4096 Aug 29 13:55 ubuntu
+drwxr-xr-x  3 user2  user2  4096 Aug 29 13:44 user2
+~~~
+
+## id / key 기반의 인증 시스템 만들기
+- 대칭키 암호화 : 암호화 - 복호화시 같은 키 사용
+- PSK : Pre Shared Key
+- PKI : Public Key Infrastructure(공개 키 기반 구조)
+  - 암호화(공개키) - 복호화(개인키)시 다른 키 사용 : 공개키로 암호화한 내용을 공개키로 복호화 할 수 없음
+  - RSA : 2048비트 정도
+  - 속도가 느림
+- 실무적으로는 PSK, PSI를 하이브리드로 사용함
+- 키를 저장하는 공간 : 홈디렉토리에 .ssh 폴더(hidden folder)에 있음
+~~~bash
+# ✨나만✨ 보고 쓰고 접근 가능해야 함!
+ubuntu@ip-172-31-42-74:~$ cd .ssh
+ubuntu@ip-172-31-42-74:~/.ssh$ ls -al
+total 12
+drwx------ 2 ubuntu ubuntu 4096 Aug 23 11:39 .
+drwxr-xr-x 9 ubuntu ubuntu 4096 Aug 29 13:55 ..
+-rw------- 1 ubuntu ubuntu  391 Aug 23 11:39 authorized_keys
+
+# user2에는 없음
+user2@ip-172-31-42-74:~$ cd .ssh
+bash: cd: .ssh: No such file or directory
+# 만들기
+user2@ip-172-31-42-74:~$ mkdir .ssh
+user2@ip-172-31-42-74:~$ ls -al
+total 32
+drwxr-xr-x 4 user2 user2      4096 Aug 29 14:29 .
+drwxr-xr-x 5 root  root       4096 Aug 29 14:14 ..
+-rw------- 1 user2 user2       384 Aug 29 14:26 .bash_history
+-rw-r--r-- 1 user2 user2       220 Aug 29 11:25 .bash_logout
+-rw-r--r-- 1 user2 user2      3771 Aug 29 11:25 .bashrc
+drwx------ 2 user2 user2      4096 Aug 29 11:32 .cache
+-rw-r--r-- 1 user2 user2       807 Aug 29 11:25 .profile
+drwxrwxr-x 2 user2 user2      4096 Aug 29 14:29 .ssh
+# ✨나만✨ 보고 쓰고 접근 가능해야 함!
+user2@ip-172-31-42-74:~$ chmod 700 .ssh
+
+# 파일
+user2@ip-172-31-42-74:~$ cd .ssh
+user2@ip-172-31-42-74:~/.ssh$ touch authorized_keys
+user2@ip-172-31-42-74:~/.ssh$ ls -al
+total 8
+drwx------ 2 user2 developers 4096 Aug 29 14:30 .
+drwxr-xr-x 4 user2 user2      4096 Aug 29 14:29 ..
+-rw-rw-r-- 1 user2 user2    0 Aug 29 14:30 authorized_keys
+# 파일이니까 실행할 필요 없음 : 600
+user2@ip-172-31-42-74:~/.ssh$ chmod 600 authorized_keys
+~~~
+
+- 개인키를 통해 공개키를 추출하는 방법!
+~~~bash
+❯ ssh-keygen -y -f mjkim-key.pem
+ssh-rsa ~~~
+~~~
+
+~~~bash
+# user2의 authorized_keys 파일에 공개키 넣어줌
+user2@ip-172-31-42-74:~/.ssh$ echo "~~~" > authorized_keys
+# vim으로 넣어도 됨!
+# 아이디 - 패스워드 로그인 불허! 설정하기 위 참고!
+~~~
+
+## sudoer
+- sudo visudo : 사용자 계정 권한들을 설정
+~~~bash
+# 필요한 경우 아래 기능을 통해 sudo 실행시 패스워드 없이 입력받게 한다
+# sudo 권한이 있는 사용자에 대해서 패스워드 없이 실행하게 한다
+%sudo ALL=(ALL:ALL) NOPASSWD: ALL
+# 호스트명=(사용자명:그룹명) 실행명령어
+
+# 패스워드 없는 사용자 만들 수 있음
+sudo adduser --disabled-password user3
+# 1. 이대로 끝내면 로그인 안됨
+# 2. sudo로 key 사용하게 mkdir.. 해주고
+# 3. 사용자 sudo chown 바꿔주기
+# 4. sudo로 만들고
+# 5. 소유권 원래 User로 바꾸기
+# 6. 권한도 600으로 다시!
+~~~
+- /etc/sudoers.d/* 로딩 여기서 살펴보면 클라우드는
+- ubuntu ALL=(ALL) NOPASSWD:ALL 로 되어있다!
