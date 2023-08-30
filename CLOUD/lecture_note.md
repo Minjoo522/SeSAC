@@ -340,8 +340,6 @@ sudo resize2fs /dev/nvme0n1p1
 <img src="img/51.jpeg" width="700px" /><br>
 - 연결 잘 되면 터미널에서 sudo fdisk -l 명령어로 만들어진 것 확인 가능<br>
 <img src="img/52.jpeg" width="700px" /><br>
-- df -h 명령어로도 확인 가능<br>
-<img src="img/54.jpeg" width="700px" /><br>
 
 ### 추가 볼륨 생성 - vscode 터미널에서 설정해줄 것!
 - 파티션(선택) / 포멧(필수)
@@ -354,6 +352,8 @@ sudo mkfs -t ext4 /dev/nvme1n1
 sudo mkdir /data
 sudo mount /dev/nvme1n1 /data
 ~~~
+- df -h 명령어로 확인 가능<br>
+<img src="img/54.jpeg" width="700px" /><br>
 
 ### 웹서버 설치
 ~~~zsh

@@ -433,6 +433,7 @@ ssh-rsa ~~~
 # user2의 authorized_keys 파일에 공개키 넣어줌
 user2@ip-172-31-42-74:~/.ssh$ echo "~~~" > authorized_keys
 # vim으로 넣어도 됨!
+# 여러개의 키를 넣을수도 있음
 # 아이디 - 패스워드 로그인 불허! 설정하기 위 참고!
 ~~~
 
@@ -452,6 +453,28 @@ sudo adduser --disabled-password user3
 # 4. sudo로 만들고
 # 5. 소유권 원래 User로 바꾸기
 # 6. 권한도 600으로 다시!
+# ✨ chown -R로 폴더에 하면 권한 다 변경 가능
 ~~~
 - /etc/sudoers.d/* 로딩 여기서 살펴보면 클라우드는
 - ubuntu ALL=(ALL) NOPASSWD:ALL 로 되어있다!
+
+### 웹 개발을 하려면?
+- /var/www/html이라는 폴더에 실제 정적 컨텐츠를 생성/수정/삭제할 수 있어야 함
+- 현재값은 root:root로 되어 있고, 744 상태
+
+#### 해결책
+1. /home/ubuntu/www 생성해서 작업
+   - 1인 개발이라면 가능, 협업 ❌
+2. /var/www/html 폴더에 그룹 권한으로 ubuntu 그룹 권한을 부여
+   - 1인 개발이라면 가능, 협업 ❌
+3. /var/www/html 폴더에 그룹 권한으로 devs 그룹을 부여 후 ubuntu라는 사용자를 devs 그룹에 추가
+
+#### 내 서버에 추가적인 개발자 등록하기
+- 나의 개인키를 그 사용자에게 전달하고 ubuntu라는 계정에 로그인해서 쓰게한다 ❌❌❌❌❌❌❌❌❌❌❌❌
+- 실무적으로는 배시 쉘 스크립트를 개발해서 자동으로 할 수 있도록 만들어서 사용함
+- 키를 여러개를 넣을 수도 있음
+
+#### vscode 특성상 최초 접속만 ssh로 하고, 그 이후로는 사실상 node-js 기반에 tcp 소켓을 맺고 통신하는 형태(ssh처럼 보이지만, 실제로는 ssh 로그인은 아님) - vscode 서버를 껐다 켜야 됨!
+~~~bash
+killall node
+~~~
