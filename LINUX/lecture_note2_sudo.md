@@ -263,7 +263,7 @@ drwxrwxr-x 2 root developers 4096 Aug 24 15:56 sesac
 ~~~bash
 # 원래는 권한 부여받고 나서 나갔다 들어와야 권한 부여되지만 나가지 않고 바로 권한 부여 받는 방법
 # 권장하지 않음
-newgrp developers
+ developers
 ~~~
 
 - 권한 빼기
