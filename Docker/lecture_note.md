@@ -292,13 +292,15 @@ Status: Downloaded newer image for nginx:latest
 2023/08/31 03:06:09 [notice] 1#1: start worker process 30
 
 # 데몬화 시켜서 돌려라
+# 🐳 도커 데몬 : 도커 프로세스가 실행되어 서버로서 입력을 받을 준비가 된 상태
 ubuntu@ip-172-31-39-149:~$ docker run -d nginx
 03ac310ee443ee1ca03c3ddbff9008558316eaec6d4e99e64d9e16dd21dda07d
 
 # 실행하는게 종료하는 건데 우리가 종료를 원치 않으면
 # -it
 
-# 실행하는게 forground process 상태로 있으면
+# 실행하는게 foreground process 상태로 있으면
+# ✨ foreground process : 터미널에서 프로세스 명령을 실행한 후 해당 프로세스 수행 종료까지 사용자가 다른 입력을 하지 못하는 프로세스
 # -d 돌아라(종료되는게 아니라 active하게 running 중)
 
 # 돌고 있는 컨테이너 안에 들어가 보려면?
@@ -331,7 +333,7 @@ pid        /var/run/nginx.pid;
 
 events {
     worker_connections  1024;
-}h
+}
 
 
 http {
@@ -419,7 +421,7 @@ apt install vim
 ~~~bash
 # 기존에 웹 서버에 있었던 nginx 때문에 실행 안되기 때문에, nginx 꺼주기
 sudo systemctl stop nginx
-sudo systemctl disabel nginx
+sudo systemctl disable nginx
 
 docker run -d -p 80:80 nginx
 docker run -d -p 81:80 nginx
