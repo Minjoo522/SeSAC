@@ -325,8 +325,8 @@ nginx:latest
 ## MySQL 볼륨 바인딩
 ~~~bash
 docker volume create my-db
-my-db
 docker volume ls
+# 결과
 DRIVER    VOLUME NAME
 local     my-db
 
@@ -334,6 +334,7 @@ docker run
 -d
 --name my-mysql
 -e MYSQL_ALLOW_EMPTY_PASSWORD=true
+# 볼륨 바인딩 : 현재 폴더의 my-db와 컨테이너의 /var/lib/mysql 마운트
 -v my-db:/var/lib/mysql
 -p 3306:3306
 mysql:8.0
@@ -390,7 +391,7 @@ FLUSH PRIVILEGES;
 📂 Dockerfile
 FROM ubuntu:20.04
 
-<!-- ENTRYPOINT : 컨테이너 시작 시 출발점 (명령어) -->
+# ENTRYPOINT : 컨테이너 시작 시 출발점 (명령어)
 ENTRYPOINT ["echo", "hello, sesac"]
 ~~~
 
@@ -399,7 +400,7 @@ ENTRYPOINT ["echo", "hello, sesac"]
 # . : build context : 도커파일이 있는 경로
 ubuntu@ip-172-31-39-149:~/sesac/1.hello$ docker build .
 Sending build context to Docker daemon  2.048kB
-# Docker 파일에 작성한 명령 순차적으로 실행하는 것 확인 간,ㅇ
+# Docker 파일에 작성한 명령 순차적으로 실행하는 것 확인 가능
 Step 1/2 : FROM ubuntu:20.04
  ---> 6df894023726
 Step 2/2 : ENTRYPOINT ["echo", "hello, sesac"]
@@ -540,8 +541,8 @@ ENTRYPOINT ["nginx", "-g", "daemon off;"]
 docker build -t mynginx:2.2 .
 docker run -d -p 80:80 mynginx:2.2
 ~~~
-- 이름을 안 주고 이미지를 만들면 <none> <none>
-- 이름이 중복되어 이전 이름을 뺏기면 <none> <none>
+- 이름을 안 주고 이미지를 만들면 \<none> \<none>
+- 이름이 중복되어 이전 이름을 뺏기면 \<none> \<none>
 - none ➡️ dangling image : 더이상 참조되지 않는, 필요 없는 이미지가 됨
 
 ## dangling image
@@ -608,6 +609,7 @@ RUN pip install flask
 WORKDIR /app
 COPY . .
 
+# 컨테이너 시작시 python app.py를 실행시켜줌!
 ENTRYPOINT ["python", "app.py"]
 ~~~
 
@@ -634,6 +636,7 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+# 환경변수 통해 가져오기
 color = os.environ.get('APP_COLOR')
 
 @app.route('/')
@@ -655,6 +658,7 @@ FROM python:3.8
 WORKDIR /app
 COPY . .
 
+# requirements.txt에 있는 파일 다 설치하기
 RUN pip install -r requirements.txt
 
 ENTRYPOINT ["python", "app.py"]
