@@ -1,4 +1,4 @@
-# Docker 🐳
+# Docker 2️⃣ 🐳
 
 - 모든 컨테이너는 격리된 환경이다
 - 내부에서는 파일 시스템, 사용자 계정, 호스트 네임, 프로세스, 네트워크 등에 대해서 격리되어있다.
@@ -319,7 +319,7 @@ docker run
 # 컨테이너의 80번 포트를 호스트의 81번 포트로
 -p 81:80
 # nginx 최신 버전으로
-nginx:latest
+nginx:late
 ~~~
 
 ## MySQL 볼륨 바인딩
@@ -347,7 +347,7 @@ docker run
 -p 8000:80
 # my-mysql 컨테이너와 WORDPRESS_DB_HOST인 my-db 연결
 --link my-mysql:my-db
--e WORDPRESS_DB_HOST=my-db
+-e WORDPRESS_DB_HOST=-db
 -e WORDPRESS_DB_USER=wp
 -e WORDPRESS_DB_PASSWORD=mypassword
 -e WORDPRESS_DB_NAME=wp
