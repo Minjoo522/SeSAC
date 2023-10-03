@@ -7,7 +7,7 @@
 - 웹 프로그래밍(HTML/CSS/JS)
 - Flask/Django 기반 백엔드, 데이터베이스, AWS 클라우드, 리눅스 서버 운용, 웹서버 / DB 서버 구측 등
 - 도커 컨테이너를 통한 앱 패키징 / 이미지 커밋 / 배포
-<div>
+<div align='center'>
   <img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=Python&logoColor=white"/>
   <img src="https://img.shields.io/badge/flask-000000?style=for-the-badge&logo=Flask&logoColor=white"/>
   <img src="https://img.shields.io/badge/django-092E20?style=for-the-badge&logo=Django&logoColor=white"/>
